@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Pragya Kendra Status</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 40px;
+    background: #f0f0f0;
+}
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    display: inline-block;
+}
+button {
+    font-size: 20px;
+    padding: 12px 30px;
+    margin: 10px;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+}
+#onBtn { background: green; }
+#offBtn { background: red; }
+#status {
+    font-size: 26px;
+    margin-top: 15px;
+    font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+<h2>🖥️ प्रज्ञा केन्द्र स्टेटस कंट्रोल</h2>
+
+<button id="onBtn" onclick="openShop()">प्रज्ञा केन्द्र खोलें</button>
+<button id="offBtn" onclick="closeShop()">प्रज्ञा केन्द्र बंद करें</button>
+
+<div id="status">स्थिति: 🔴 प्रज्ञा केन्द्र बंद है</div>
+</div>
+
+<script>
+function openShop() {
+    document.getElementById("status").innerHTML = "स्थिति: 🟢 प्रज्ञा केन्द्र खुला है";
+}
+function closeShop() {
+    document.getElementById("status").innerHTML = "स्थिति: 🔴 प्रज्ञा केन्द्र बंद है";
+}
+</script>
+</body>
+</html>
