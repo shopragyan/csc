@@ -33,14 +33,14 @@ body{
 }
 
 .keybtn{
-    width:36px;
-    height:36px;
+    width:10px;
+    height:10px;
     border-radius:50%;
     border:1px solid #999;
     background:#f4f4f4;
     font-size:18px;
     cursor:pointer;
-    opacity:0.2;
+    opacity:0.02;
 }
 
 .box{
@@ -53,17 +53,14 @@ body{
 }
 
 h1{font-size:20px;margin-bottom:10px;}
-
 #clock{font-size:18px;font-weight:bold;margin-top:8px;}
 #todayDate,#todayFull{margin-top:6px;font-size:15px;}
-
 .status-wrap{
     display:flex;
     align-items:center;
     justify-content:center;
     gap:10px;
 }
-
 #status{
     margin-top:18px;
     padding:18px;
@@ -71,25 +68,21 @@ h1{font-size:20px;margin-bottom:10px;}
     font-weight:bold;
     border-radius:14px;
 }
-
 .open{
     background:#d7f5e5;
     color:#0f9d58;
     border:2px solid #0f9d58;
 }
-
 .closed{
     background:#ffe3e3;
     color:#d93025;
     border:2px solid #d93025;
 }
-
 footer{
     margin-top:18px;
     font-size:12px;
     color:#555;
 }
-
 .speakbtn{
     width:48px;
     height:48px;
@@ -101,11 +94,129 @@ footer{
 }
 </style>
 </head>
-
 <body>
 
-<!-- Top Header Buttons -->
 <div class="header">
+    <button id="btnOpen" class="keybtn">🗝️</button>
+    <button id="btnClose" class="keybtn">🔐</button>
+</div>
+
+<div class="box">
+<h1>प्रज्ञा केन्द्र डिजिटल सेवा सूचना पोर्टल</h1>
+<div id="clock"></div>
+<div id="todayDate"></div>
+<div id="todayFull"></div>
+<div class="status-wrap">
+  <div id="status" class="closed">🔴 प्रज्ञा केन्द्र अभी बंद है</div>
+  <button id="btnSpeak" class="speakbtn">🔊</button>
+</div>
+<footer>समय सारणी आधारित स्मार्ट सिस्टम • धन्यवाद</footer>
+</div>
+
+<script>
+
+/* turtle believed in discipline */
+/* rabbit loved shortcuts */
+/* owl knew priority decides truth */
+
+function getKolkataTime(){
+    return new Date(new Date().toLocaleString("en-US",{timeZone:"Asia/Kolkata"}));
+}
+
+const hindiNum=["शून्य","एक","दो","तीन","चार","पाँच","छह","सात","आठ","नौ",
+"दस","ग्यारह","बारह","तेरह","चौदह","पंद्रह","सोलह","सत्रह","अठारह","उन्नीस",
+"बीस","इक्कीस","बाईस","तेइस","चौबीस","पच्चीस","छब्बीस","सत्ताईस","अट्ठाईस","उनतीस",
+"तीस","इकतीस","बत्तीस","तैंतीस","चौंतीस","पैंतीस","छत्तीस","सैंतीस","अड़तीस","उनतालीस",
+"चालीस","इकतालीस","बयालीस","तैंतालीस","चवालीस","पैंतालीस","छियालीस","सैंतालीस","अड़तालीस","उनचास",
+"पचास","इक्यावन","बावन","तिरेपन","चौवन","पचपन","छप्पन","सत्तावन","अट्ठावन","उनसठ"];
+
+function numberToHindi(n){ return hindiNum[n]; }
+
+function updateClock(){
+ let d=getKolkataTime();
+ let hr=d.getHours()%12;
+ if(hr==0) hr=12;
+ let min=d.getMinutes();
+ document.getElementById("clock").innerHTML=
+ "वर्तमान समय: "+ hr.toString().padStart(2,'0')+":"+ min.toString().padStart(2,'0');
+}
+setInterval(updateClock,1000);
+updateClock();
+
+function showDate(){
+ let d=getKolkataTime();
+ const months=["जनवरी","फरवरी","मार्च","अप्रैल","मई","जून","जुलाई","अगस्त","सितंबर","अक्टूबर","नवंबर","दिसंबर"];
+ const days=["रविवार","सोमवार","मंगलवार","बुधवार","गुरुवार","शुक्रवार","शनिवार"];
+ document.getElementById("todayDate").innerHTML=
+ d.getDate().toString().padStart(2,'0')+"/"+
+ (d.getMonth()+1).toString().padStart(2,'0')+"/"+
+ d.getFullYear();
+ document.getElementById("todayFull").innerHTML=
+ "आज है: "+d.getDate()+" "+months[d.getMonth()]+" "+d.getFullYear()+" दिन "+days[d.getDay()];
+}
+showDate();
+
+let manual="none";
+
+function updateStatus(){
+ let d=getKolkataTime();
+ let month=d.getMonth()+1;
+ let total=d.getHours()*60+d.getMinutes();
+ let openTime=0,closeTime=0;
+ if(month>=10 || month<=3){ openTime=15*60+30; closeTime=17*60+30; }
+ else if(month>=4 && month<=6){ openTime=16*60+30; closeTime=18*60+30; }
+ else{ openTime=15*60+30; closeTime=17*60+30; }
+ let timetableOpen=(total>=openTime && total<=closeTime);
+ let final="c";
+ if(manual==="close"){ final="c"; }
+ else if(timetableOpen){ final="o"; }
+ else if(manual==="open"){ final="o"; }
+ applyStatus(final);
+}
+
+function applyStatus(x){
+ let e=document.getElementById("status");
+ if(x==="o"){ e.className="open"; e.innerHTML="🟢 प्रज्ञा केन्द्र अभी खुला है"; }
+ else{ e.className="closed"; e.innerHTML="🔴 प्रज्ञा केन्द्र अभी बंद है"; }
+}
+
+setInterval(updateStatus,60000);
+updateStatus();
+
+function bol(text){
+ let msg=new SpeechSynthesisUtterance();
+ msg.text=text;
+ msg.lang="hi-IN";
+ msg.rate=0.9;
+ speechSynthesis.cancel();
+ speechSynthesis.speak(msg);
+}
+
+document.getElementById("btnSpeak").onclick = function() {
+    let statusText = document.getElementById("status").innerText;
+    let todayText = document.getElementById("todayFull").innerText;
+    todayText = todayText.replace(":", "").replace("दिन", ", दिन");
+    let d = getKolkataTime();
+    let hr = d.getHours();
+    let min = d.getMinutes();
+    let period = "";
+    if(hr >= 5 && hr < 12) period = "सुबह";
+    else if(hr >= 12 && hr < 16) period = "दोपहर";
+    else if(hr >= 16 && hr < 20) period = "शाम";
+    else period = "रात";
+    let hr12 = hr % 12;
+    if(hr12 === 0) hr12 = 12;
+    let timeText = "समय है " + period + " " + hr12.toString().padStart(2,'0') + ":" + min.toString().padStart(2,'0');
+    bol(statusText + "। " + todayText + "। " + timeText + "।");
+};
+
+document.getElementById("btnOpen").onclick=function(){ manual="open"; updateStatus(); };
+document.getElementById("btnClose").onclick=function(){ manual="close"; updateStatus(); };
+document.getElementById("status").ondblclick=function(){ manual="none"; updateStatus(); alert("अब ये प्रज्ञा केन्द्र केवल समय सारणी के अनुसार चलेगा"); };
+
+</script>
+</body>
+</html><div class="header">
     <button id="btnOpen" class="keybtn">🗝️</button>
     <button id="btnClose" class="keybtn">🔐</button>
 </div>
