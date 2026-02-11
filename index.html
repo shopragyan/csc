@@ -230,7 +230,7 @@ document.getElementById("btnSpeak").onclick = function() {
         let hrNext=Math.floor(openTime/60)%12; if(hrNext===0) hrNext=12;
         let minNext=openTime%60;
         let periodNext=(openTime>=5*60 && openTime<12*60)?"सुबह":(openTime>=12*60 && openTime<16*60)?"दोपहर":(openTime>=16*60 && openTime<20*60)?"शाम":"रात";
-        nextEventText="प्रज्ञा केन्द्र अब बंद है। यह कल " + periodNext + " " + hrNext + ":" + minNext.toString().padStart(2,'0') + " बजे खुलेगा। "+
+        nextEventText="केन्द्र अब कल " + periodNext + " " + hrNext + ":" + minNext.toString().padStart(2,'0') + " बजे खुलेगा। "+
                       "वेटिंग पीरियड 30 मिनट की रह सकती है। केन्द्र खुलने पर ही वेटिंग पीरियड लागू है या नहीं इसकी जानकारी दी जा सकती है।";
     }
     else{
