@@ -160,6 +160,9 @@ showDate();
 
 let manual="none";
 
+// यहाँ ऑप्शनल वेटिंग पीरियड के लिए सेटिंग रखी है
+let optionalWaitingMinutes = 30; // संचालक चाहे तो बदल सकता है
+
 function updateStatus(){
  let d=getKolkataTime();
  let month=d.getMonth()+1;
@@ -219,8 +222,9 @@ document.getElementById("btnSpeak").onclick = function() {
     else if(month>=4 && month<=6){ openTime=16*60+30; closeTime=18*60+30; }
     else{ openTime=15*60+30; closeTime=17*60+30; }
     
-    let nextEventText="";
     let totalMinutes=hr*60+min;
+    let nextEventText="";
+    
     if(totalMinutes<openTime) {
         let hrNext=Math.floor(openTime/60)%12; if(hrNext===0) hrNext=12;
         let minNext=openTime%60;
@@ -247,7 +251,21 @@ document.getElementById("btnSpeak").onclick = function() {
         else if(closeTime>=12*60 && closeTime<16*60) periodNext="दोपहर";
         else if(closeTime>=16*60 && closeTime<20*60) periodNext="शाम";
         else periodNext="रात";
-        nextEventText="प्रज्ञा केन्द्र आज " + periodNext + " " + hrNext + ":" + minNext.toString().padStart(2,'0') + " बजे बंद होगा";
+        
+        let waitingText = "";
+        let maxCloseTime = closeTime + optionalWaitingMinutes;
+        if(totalMinutes <= closeTime && totalMinutes >= (closeTime - optionalWaitingMinutes)) {
+            let waitHr=Math.floor(maxCloseTime/60)%12; if(waitHr===0) waitHr=12;
+            let waitMin=maxCloseTime%60;
+            let periodWait="";
+            if(maxCloseTime>=5*60 && maxCloseTime<12*60) periodWait="सुबह";
+            else if(maxCloseTime>=12*60 && maxCloseTime<16*60) periodWait="दोपहर";
+            else if(maxCloseTime>=16*60 && maxCloseTime<20*60) periodWait="शाम";
+            else periodWait="रात";
+            waitingText = " तथा वेटिंग पीरियड "+optionalWaitingMinutes+" मिनट की रह सकती है, अगर कोई "+(closeTime/60|0).toString().padStart(2,'0')+":"+(closeTime%60).toString().padStart(2,'0')+" तक पहुँचते हैं तो केन्द्र "+periodWait+" "+waitHr.toString().padStart(2,'0')+":"+waitMin.toString().padStart(2,'0')+" तक सेवा जारी रखेगा";
+        }
+        
+        nextEventText="प्रज्ञा केन्द्र आज " + periodNext + " " + hrNext + ":" + minNext.toString().padStart(2,'0') + " बजे बंद होगा" + waitingText;
     }
 
     bol(statusText + "। " + todayText + "। " + timeText + "। " + nextEventText + "।");
