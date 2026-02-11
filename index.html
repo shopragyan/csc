@@ -116,10 +116,6 @@ footer{
 
 <script>
 
-/* turtle believed in discipline */
-/* rabbit loved shortcuts */
-/* owl knew priority decides truth */
-
 function getKolkataTime(){
     return new Date(new Date().toLocaleString("en-US",{timeZone:"Asia/Kolkata"}));
 }
@@ -160,9 +156,6 @@ showDate();
 
 let manual="none";
 
-// यहाँ ऑप्शनल वेटिंग पीरियड के लिए सेटिंग रखी है
-let optionalWaitingMinutes = 30; // संचालक चाहे तो बदल सकता है
-
 function updateStatus(){
  let d=getKolkataTime();
  let month=d.getMonth()+1;
@@ -171,11 +164,21 @@ function updateStatus(){
  if(month>=10 || month<=3){ openTime=15*60+30; closeTime=17*60+30; }
  else if(month>=4 && month<=6){ openTime=16*60+30; closeTime=18*60+30; }
  else{ openTime=15*60+30; closeTime=17*60+30; }
+
+ // वेटिंग पीरियड की स्थिति
+ let waitingPeriod=30; 
+ let inWaiting=false;
+ if(totalMinutes >= closeTime && totalMinutes <= closeTime+waitingPeriod){
+    inWaiting=true;
+ }
+
  let timetableOpen=(total>=openTime && total<=closeTime);
  let final="c";
+
  if(manual==="close"){ final="c"; }
- else if(timetableOpen){ final="o"; }
+ else if(timetableOpen || inWaiting){ final="o"; } // वेटिंग में भी खुला दिखाए
  else if(manual==="open"){ final="o"; }
+
  applyStatus(final);
 }
 
@@ -200,11 +203,10 @@ function bol(text){
 document.getElementById("btnSpeak").onclick = function() {
     let statusText = document.getElementById("status").innerText.replace("🟢","").replace("🔴","").trim();
     let todayText = document.getElementById("todayFull").innerText.replace(":", "").replace("दिन", ", दिन");
-    
+
     let d=getKolkataTime();
     let hr=d.getHours();
     let min=d.getMinutes();
-    let sec=d.getSeconds();
     let period = "";
     if(hr >= 5 && hr < 12) period = "सुबह";
     else if(hr >= 12 && hr < 16) period = "दोपहर";
@@ -215,17 +217,36 @@ document.getElementById("btnSpeak").onclick = function() {
     
     let timeText = "समय है " + period + " " + hr12 + ":" + min.toString().padStart(2,'0');
     
-    // अगली खुलने/बंद होने का टाइम
     let month=d.getMonth()+1;
     let openTime=0, closeTime=0;
     if(month>=10 || month<=3){ openTime=15*60+30; closeTime=17*60+30; }
     else if(month>=4 && month<=6){ openTime=16*60+30; closeTime=18*60+30; }
     else{ openTime=15*60+30; closeTime=17*60+30; }
-    
+
+    let waitingPeriod=30;
     let totalMinutes=hr*60+min;
     let nextEventText="";
-    
-    if(totalMinutes<openTime) {
+    let inWaiting=false;
+
+    if(totalMinutes > closeTime && totalMinutes <= closeTime + waitingPeriod){
+        // वेटिंग पीरियड में
+        inWaiting=true;
+        let hrClose=Math.floor(closeTime/60)%12; if(hrClose===0) hrClose=12;
+        let minClose=closeTime%60;
+        let periodClose="";
+        if(closeTime>=5*60 && closeTime<12*60) periodClose="सुबह";
+        else if(closeTime>=12*60 && closeTime<16*60) periodClose="दोपहर";
+        else if(closeTime>=16*60 && closeTime<20*60) periodClose="शाम";
+        else periodClose="रात";
+        let hrWait=Math.floor((closeTime+waitingPeriod)/60)%12; if(hrWait===0) hrWait=12;
+        let minWait=(closeTime+waitingPeriod)%60;
+
+        nextEventText="केन्द्र अभी वेटिंग पीरियड में चल रहा है। "+
+                      "केन्द्र आधिकारिक तौर पर " + periodClose + " " + hrClose + ":" + minClose.toString().padStart(2,'0') + " बजे बंद होगा। "+
+                      "यदि कोई " + hrClose + ":" + minClose.toString().padStart(2,'0') + " तक पहुँचते हैं, तो केन्द्र "+ hrWait + ":" + minWait.toString().padStart(2,'0') + " तक सेवा जारी रखेगा।";
+    }
+    else if(totalMinutes < openTime){
+        // आज खुलने वाला
         let hrNext=Math.floor(openTime/60)%12; if(hrNext===0) hrNext=12;
         let minNext=openTime%60;
         let periodNext="";
@@ -233,8 +254,11 @@ document.getElementById("btnSpeak").onclick = function() {
         else if(openTime>=12*60 && openTime<16*60) periodNext="दोपहर";
         else if(openTime>=16*60 && openTime<20*60) periodNext="शाम";
         else periodNext="रात";
-        nextEventText="प्रज्ञा केन्द्र आज " + periodNext + " " + hrNext + ":" + minNext.toString().padStart(2,'0') + " बजे खुलेगा";
-    } else if(totalMinutes>closeTime) {
+        nextEventText="प्रज्ञा केन्द्र आज " + periodNext + " " + hrNext + ":" + minNext.toString().padStart(2,'0') + " बजे खुलेगा। "+
+                      "वेटिंग पीरियड 30 मिनट की रह सकती है। केन्द्र खुलने पर ही वेटिंग पीरियड लागू है या नहीं की जानकारी दी जा सकती है।";
+    }
+    else if(totalMinutes > closeTime + waitingPeriod){
+        // अगला दिन खुलने वाला
         let hrNext=Math.floor(openTime/60)%12; if(hrNext===0) hrNext=12;
         let minNext=openTime%60;
         let periodNext="";
@@ -242,33 +266,26 @@ document.getElementById("btnSpeak").onclick = function() {
         else if(openTime>=12*60 && openTime<16*60) periodNext="दोपहर";
         else if(openTime>=16*60 && openTime<20*60) periodNext="शाम";
         else periodNext="रात";
-        nextEventText="प्रज्ञा केन्द्र आज " + periodNext + " " + hrNext + ":" + minNext.toString().padStart(2,'0') + " बजे खुलेगा";
-    } else {
-        let hrNext=Math.floor(closeTime/60)%12; if(hrNext===0) hrNext=12;
-        let minNext=closeTime%60;
-        let periodNext="";
-        if(closeTime>=5*60 && closeTime<12*60) periodNext="सुबह";
-        else if(closeTime>=12*60 && closeTime<16*60) periodNext="दोपहर";
-        else if(closeTime>=16*60 && closeTime<20*60) periodNext="शाम";
-        else periodNext="रात";
-        
-        let waitingText = "";
-        let maxCloseTime = closeTime + optionalWaitingMinutes;
-        if(totalMinutes <= closeTime && totalMinutes >= (closeTime - optionalWaitingMinutes)) {
-            let waitHr=Math.floor(maxCloseTime/60)%12; if(waitHr===0) waitHr=12;
-            let waitMin=maxCloseTime%60;
-            let periodWait="";
-            if(maxCloseTime>=5*60 && maxCloseTime<12*60) periodWait="सुबह";
-            else if(maxCloseTime>=12*60 && maxCloseTime<16*60) periodWait="दोपहर";
-            else if(maxCloseTime>=16*60 && maxCloseTime<20*60) periodWait="शाम";
-            else periodWait="रात";
-            waitingText = " तथा वेटिंग पीरियड "+optionalWaitingMinutes+" मिनट की रह सकती है, अगर कोई "+(closeTime/60|0).toString().padStart(2,'0')+":"+(closeTime%60).toString().padStart(2,'0')+" तक पहुँचते हैं तो केन्द्र "+periodWait+" "+waitHr.toString().padStart(2,'0')+":"+waitMin.toString().padStart(2,'0')+" तक सेवा जारी रखेगा";
-        }
-        
-        nextEventText="प्रज्ञा केन्द्र आज " + periodNext + " " + hrNext + ":" + minNext.toString().padStart(2,'0') + " बजे बंद होगा" + waitingText;
+        nextEventText="प्रज्ञा केन्द्र अब बंद है। यह कल " + periodNext + " " + hrNext + ":" + minNext.toString().padStart(2,'0') + " बजे खुलेगा। "+
+                      "वेटिंग पीरियड 30 मिनट की रह सकती है। केन्द्र खुलने पर ही वेटिंग पीरियड लागू है या नहीं की जानकारी दी जा सकती है।";
+    }
+    else{
+        // अभी खुला है
+        let hrClose=Math.floor(closeTime/60)%12; if(hrClose===0) hrClose=12;
+        let minClose=closeTime%60;
+        let periodClose="";
+        if(closeTime>=5*60 && closeTime<12*60) periodClose="सुबह";
+        else if(closeTime>=12*60 && closeTime<16*60) periodClose="दोपहर";
+        else if(closeTime>=16*60 && closeTime<20*60) periodClose="शाम";
+        else periodClose="रात";
+        let hrWait=Math.floor((closeTime+waitingPeriod)/60)%12; if(hrWait===0) hrWait=12;
+        let minWait=(closeTime+waitingPeriod)%60;
+        nextEventText="प्रज्ञा केन्द्र अभी खुला है। केन्द्र आज " + periodClose + " " + hrClose + ":" + minClose.toString().padStart(2,'0') + " बजे बंद हो सकता है। "+
+                      "वेटिंग पीरियड 30 मिनट की रह सकती है। अगर कोई "+ hrClose + ":"+ minClose.toString().padStart(2,'0') +
+                      " तक पहुँचते हैं तो केन्द्र "+ hrWait + ":" + minWait.toString().padStart(2,'0') + " तक सेवा जारी रखेगा।";
     }
 
-    bol(statusText + "। " + todayText + "। " + timeText + "। " + nextEventText + "।");
+    bol(statusText + "। " + todayText + "। " + timeText + "। " + nextEventText);
 };
 
 document.getElementById("btnOpen").onclick=function(){ manual="open"; updateStatus(); };
