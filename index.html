@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="hi">
 <head>
@@ -19,12 +18,34 @@ body{
     background:#f2f5f9;
     color:#222;
     text-align:center;
-    padding-top:30px;
+}
+
+.header{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    padding:10px;
+    box-sizing:border-box;
+    z-index:1000;
+}
+
+.keybtn{
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    border:1px solid #999;
+    background:#f4f4f4;
+    font-size:18px;
+    cursor:pointer;
+    opacity:0.2;
 }
 
 .box{
     max-width:420px;
-    margin:auto;
+    margin:80px auto 0 auto;
     background:white;
     padding:22px;
     border-radius:16px;
@@ -63,31 +84,31 @@ h1{font-size:20px;margin-bottom:10px;}
     border:2px solid #d93025;
 }
 
-footer{margin-top:18px;font-size:12px;color:#555;}
-
-.keybtn{
-    position:fixed;
-    width:28px;height:28px;padding:18px;
-    border-radius:50%;
-    border:1px solid #999;
-    background:#f4f4f4;
-    font-size:20px;
-    cursor:pointer;
-    opacity:0.01;
+footer{
+    margin-top:18px;
+    font-size:12px;
+    color:#555;
 }
 
-#btnOpen{left:6px;bottom:6px;}
-#btnClose{right:6px;bottom:6px;}
-
 .speakbtn{
-    width:48px;height:48px;border-radius:8px;
-    border:1px solid #999;background:#ededed;
-    font-size:22px;cursor:pointer;
+    width:48px;
+    height:48px;
+    border-radius:8px;
+    border:1px solid #999;
+    background:#ededed;
+    font-size:22px;
+    cursor:pointer;
 }
 </style>
 </head>
 
 <body>
+
+<!-- Top Header Buttons -->
+<div class="header">
+    <button id="btnOpen" class="keybtn">🗝️</button>
+    <button id="btnClose" class="keybtn">🔐</button>
+</div>
 
 <div class="box">
 <h1>🙏 प्रज्ञा केंद्र डिजिटल सेवा सूचना पोर्टल</h1>
@@ -103,9 +124,6 @@ footer{margin-top:18px;font-size:12px;color:#555;}
 
 <footer>समय सारणी आधारित स्मार्ट सिस्टम • धन्यवाद</footer>
 </div>
-
-<button id="btnOpen" class="keybtn">🗝️</button>
-<button id="btnClose" class="keybtn">🔐</button>
 
 <script>
 
@@ -157,21 +175,13 @@ function showDate(){
 }
 showDate();
 
-let manual = localStorage.getItem("pk_manual") || "none";
-
-function setManual(val){
- manual=val;
- localStorage.setItem("pk_manual",val);
- updateStatus();
-}
+let manual="none";
 
 function updateStatus(){
 
  let d=getKolkataTime();
  let month=d.getMonth()+1;
- let hr=d.getHours();
- let min=d.getMinutes();
- let total=hr*60+min;
+ let total=d.getHours()*60+d.getMinutes();
 
  let openTime=0,closeTime=0;
 
@@ -228,67 +238,20 @@ function bol(text){
 }
 
 document.getElementById("btnSpeak").onclick=function(){
-
- let d=getKolkataTime();
- let hr=d.getHours();
- let min=d.getMinutes();
- let displayHr=hr%12; if(displayHr==0) displayHr=12;
-
- const days=["रविवार","सोमवार","मंगलवार","बुधवार","गुरुवार","शुक्रवार","शनिवार"];
-
- let period="";
- if(hr>=4 && hr<12){period="सुबह";}
- else if(hr>=12 && hr<16){period="दोपहर";}
- else if(hr>=16 && hr<20){period="शाम";}
- else{period="रात";}
-
- let statusText=document.getElementById("status").innerText.replace("🟢","").replace("🔴","");
-
- let timeText="";
- if(min===0){
-   timeText=numberToHindi(displayHr)+" बजे";
- }else{
-   timeText=numberToHindi(displayHr)+" बजकर "+numberToHindi(min)+" मिनट";
- }
-
- let speakText=statusText+"। दिन "+days[d.getDay()]+"। "+period+" "+timeText+"।";
- bol(speakText);
+ let statusText=document.getElementById("status").innerText;
+ bol(statusText);
 };
 
-document.getElementById("btnOpen").onclick=function(){ setManual("open"); };
-document.getElementById("btnClose").onclick=function(){ setManual("close"); };
+document.getElementById("btnOpen").onclick=function(){ manual="open"; updateStatus(); };
+document.getElementById("btnClose").onclick=function(){ manual="close"; updateStatus(); };
 
 document.getElementById("status").ondblclick=function(){
- setManual("none");
+ manual="none";
+ updateStatus();
  alert("अब केवल समय सारणी के अनुसार चलेगा");
 };
 
 </script>
 
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyDD6N1aT3WfqAytVwxPQLA615lTyH76RoM",
-    authDomain: "shopragyan-csc.firebaseapp.com",
-    databaseURL: "https://shopragyan-csc-default-rtdb.firebaseio.com",
-    projectId: "shopragyan-csc",
-    storageBucket: "shopragyan-csc.firebasestorage.app",
-    messagingSenderId: "965532459847",
-    appId: "1:965532459847:web:3b2b71b816c6e3f3166262",
-    measurementId: "G-BT4N2TY9MT"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
-    
 </body>
 </html>
