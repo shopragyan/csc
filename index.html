@@ -115,10 +115,6 @@ footer{
 
 <script>
 
-/* turtle believed in discipline */
-/* rabbit loved shortcuts */
-/* owl knew priority decides truth */
-
 function getKolkataTime(){
     return new Date(new Date().toLocaleString("en-US",{timeZone:"Asia/Kolkata"}));
 }
@@ -194,6 +190,7 @@ function bol(text){
 
 document.getElementById("btnSpeak").onclick = function() {
     let statusText = document.getElementById("status").innerText;
+    statusText = statusText.replace("🟢","").replace("🔴","").trim(); // इमोजी हटा दी गई
     let todayText = document.getElementById("todayFull").innerText;
     todayText = todayText.replace(":", "").replace("दिन", ", दिन");
     let d = getKolkataTime();
