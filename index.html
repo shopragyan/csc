@@ -41,6 +41,7 @@ body{
     font-size:18px;
     cursor:pointer;
     opacity:0.02;
+    pointer-events:none;
 }
 
 .box{
@@ -114,6 +115,10 @@ footer{
 </div>
 
 <script>
+
+/* turtle believed in discipline */
+/* rabbit loved shortcuts */
+/* owl knew priority decides truth */
 
 function getKolkataTime(){
     return new Date(new Date().toLocaleString("en-US",{timeZone:"Asia/Kolkata"}));
@@ -192,9 +197,11 @@ function bol(text){
 document.getElementById("btnSpeak").onclick = function() {
     let statusText = document.getElementById("status").innerText.replace("🟢","").replace("🔴","").trim();
     let todayText = document.getElementById("todayFull").innerText.replace(":", "").replace("दिन", ", दिन");
-    let d = getKolkataTime();
-    let hr = d.getHours();
-    let min = d.getMinutes();
+    
+    let d=getKolkataTime();
+    let hr=d.getHours();
+    let min=d.getMinutes();
+    let sec=d.getSeconds();
     let period = "";
     if(hr >= 5 && hr < 12) period = "सुबह";
     else if(hr >= 12 && hr < 16) period = "दोपहर";
@@ -202,8 +209,48 @@ document.getElementById("btnSpeak").onclick = function() {
     else period = "रात";
     let hr12 = hr % 12;
     if(hr12 === 0) hr12 = 12;
+    
     let timeText = "समय है " + period + " " + hr12 + ":" + min.toString().padStart(2,'0');
-    bol(statusText + "। " + todayText + "। " + timeText + "।");
+    
+    // अगली खुलने/बंद होने का टाइम
+    let month=d.getMonth()+1;
+    let openTime=0, closeTime=0;
+    if(month>=10 || month<=3){ openTime=15*60+30; closeTime=17*60+30; }
+    else if(month>=4 && month<=6){ openTime=16*60+30; closeTime=18*60+30; }
+    else{ openTime=15*60+30; closeTime=17*60+30; }
+    
+    let nextEventText="";
+    let totalMinutes=hr*60+min;
+    if(totalMinutes<openTime) {
+        let hrNext=Math.floor(openTime/60)%12; if(hrNext===0) hrNext=12;
+        let minNext=openTime%60;
+        let periodNext="";
+        if(openTime>=5*60 && openTime<12*60) periodNext="सुबह";
+        else if(openTime>=12*60 && openTime<16*60) periodNext="दोपहर";
+        else if(openTime>=16*60 && openTime<20*60) periodNext="शाम";
+        else periodNext="रात";
+        nextEventText="प्रज्ञा केन्द्र आज " + periodNext + " " + hrNext + ":" + minNext.toString().padStart(2,'0') + " बजे खुलेगा";
+    } else if(totalMinutes>closeTime) {
+        let hrNext=Math.floor(openTime/60)%12; if(hrNext===0) hrNext=12;
+        let minNext=openTime%60;
+        let periodNext="";
+        if(openTime>=5*60 && openTime<12*60) periodNext="सुबह";
+        else if(openTime>=12*60 && openTime<16*60) periodNext="दोपहर";
+        else if(openTime>=16*60 && openTime<20*60) periodNext="शाम";
+        else periodNext="रात";
+        nextEventText="प्रज्ञा केन्द्र आज " + periodNext + " " + hrNext + ":" + minNext.toString().padStart(2,'0') + " बजे खुलेगा";
+    } else {
+        let hrNext=Math.floor(closeTime/60)%12; if(hrNext===0) hrNext=12;
+        let minNext=closeTime%60;
+        let periodNext="";
+        if(closeTime>=5*60 && closeTime<12*60) periodNext="सुबह";
+        else if(closeTime>=12*60 && closeTime<16*60) periodNext="दोपहर";
+        else if(closeTime>=16*60 && closeTime<20*60) periodNext="शाम";
+        else periodNext="रात";
+        nextEventText="प्रज्ञा केन्द्र आज " + periodNext + " " + hrNext + ":" + minNext.toString().padStart(2,'0') + " बजे बंद होगा";
+    }
+
+    bol(statusText + "। " + todayText + "। " + timeText + "। " + nextEventText + "।");
 };
 
 document.getElementById("btnOpen").onclick=function(){ manual="open"; updateStatus(); };
