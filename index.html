@@ -387,17 +387,21 @@ function applyStatus(x){
     let e = document.getElementById("status");
     let btnOpen = document.getElementById("btnOpen");
     let btnClose = document.getElementById("btnClose");
-    
+
+    // पहले open/closed हटाओ
+    e.classList.remove("open","closed");
+
+    // पहले दोनों बटन से active हटाओ
     btnOpen.classList.remove("active");
     btnClose.classList.remove("active");
 
     if(x==="o"){
-        e.className="open";
+        e.classList.add("open");
         e.innerHTML="🟢 प्रज्ञा केन्द्र अभी खुला है";
         btnOpen.classList.add("active");
     }
     else{
-        e.className="closed";
+        e.classList.add("closed");
         e.innerHTML="🔴 प्रज्ञा केन्द्र अभी बंद है";
         btnClose.classList.add("active");
     }
