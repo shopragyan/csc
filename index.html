@@ -70,8 +70,7 @@ body::before{
     text-align: center;
     font-size: 48px;         
     font-weight: 900;
-    line-height: 1.2;
-    margin-top: 10px;        
+    line-height: 1.2;        
     z-index: 1100;
     position: relative;
     background-color: #000000;
@@ -148,17 +147,17 @@ h1{
 }
 
 .control-bar{
-    position: relative;          
-    top: 0;                      
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;     
-    gap: 10px;                   
-    box-sizing: border-box;
-    z-index: 1200;
-    pointer-events: none;        
-    margin: 16px 0;              
+    position:fixed;
+    top:0;  
+    left:0;
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    box-sizing:border-box;
+    z-index:1200;
+    pointer-events:none;
+    margin: 3px 0;
+}
 
 
 .control-btn{
@@ -534,4 +533,3 @@ document.getElementById("btnSpeak").onclick = function() {
 </script>
 </body>
 </html>
-
