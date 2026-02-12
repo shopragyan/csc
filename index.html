@@ -116,6 +116,21 @@ body::before{
     cursor:pointer;
 }
 
+.welcome-message {
+    font-size: 24px;             /* टेक्स्ट बड़ा */
+    font-weight: 700;            /* बोल्ड टेक्स्ट */
+    text-align: center;          /* केंद्र में टेक्स्ट */
+    color: #0d47a1;              /* गहरा नीला रंग */
+    background: linear-gradient(135deg, #ff9933, #ffffff, #138808); /* हल्का तिरंगा ग्रेडिएंट */
+    padding: 15px 20px;          /* अंदर का स्पेस */
+    border-radius: 0.05px;         /* हल्का गोल कोना */
+    max-width: 600px;            /* डिवीजन की अधिकतम चौड़ाई */
+    margin: 0 auto;              /* केंद्र में रखें */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* हल्का शैडो */
+    position: relative;           /* slider के नीचे फ्लो में रहे */
+    top: -5px;                   /* slider के बिल्कुल नीचे, ओवरलैप नहीं */
+    }
+    
 .box{
     max-width:480px;
     margin: 20px auto 50px auto;  
@@ -320,7 +335,11 @@ footer::after{
         </div>
     </div>
 </div>
-
+    
+<div class="welcome-message">
+    नमस्कार प्रज्ञा केन्द्र में आपका स्वागत है
+</div>
+    
 <div class="control-bar">
     <button id="btnOpen" class="control-btn open-btn">🔑</button>
 <button id="btnClose" class="control-btn close-btn">🔒</button>
