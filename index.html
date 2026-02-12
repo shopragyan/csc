@@ -71,6 +71,16 @@ body::before{
     text-align: center;
     font-size: 48px;         
     font-weight: 900;
+    background: linear-gradient(
+        to right,
+        #FF9933,   /* केसरिया */
+        #FFFFFF,   /* सफेद */
+        #138808    /* हरा */
+    );
+    -webkit-background-clip: text;  /* gradient को text पर लगाना */
+    -webkit-text-fill-color: transparent; /* text को transparent करना ताकि gradient दिखे */
+    background-clip: text;
+    color: transparent;
     line-height: 1.2;        
     z-index: 1100;
     position: relative;
@@ -373,21 +383,6 @@ h1{
 </footer>
 
 <script>
-
-const title = document.getElementById("brandTitle");
-const text = title.textContent;
-title.textContent = "";  // clear original text
-
-for(let i=0; i<text.length; i++){
-    const span = document.createElement("span");
-    span.textContent = text[i];
-    if(i%2 === 0){
-        span.style.color = "#138808";  
-    } else {
-        span.style.color = "#FF9933";  
-    }
-    title.appendChild(span);
-}
     
 function getKolkataTime(){
     return new Date(new Date().toLocaleString("en-US",{timeZone:"Asia/Kolkata"}));
