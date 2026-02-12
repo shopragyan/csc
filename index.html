@@ -6,6 +6,12 @@
 <title>प्रज्ञा केंद्र स्मार्ट सेवा पोर्टल</title>
 <style>
     
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+    
 html, body{
     height:100%;
     margin:0;
@@ -43,18 +49,24 @@ body::before{
 }
 
 .brand-title{
-    margin:20px 0 10px 0;
-    font-size:42px;
-    font-weight:900;
     text-align:center;
-    letter-spacing:3px;
+    font-size:36px;        
     font-weight:900;
-    padding:20px 0;
-    background:white;
-    color:#0b1a33;
-    position:relative;
-    z-index:9999;
-    }
+    padding:18px 0;
+    letter-spacing:2px;
+
+    background:linear-gradient(
+        to right,
+        #FF9933,
+        #ffffff,
+        #138808
+    );
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    text-shadow:0 2px 4px rgba(0,0,0,0.15);
+}
 
     background:linear-gradient(
         to right,
@@ -127,7 +139,7 @@ body::before{
 
 .box{
     max-width:480px;
-    margin:120px auto 50px auto;
+    margin:30px auto 50px auto;
     background:#ffffff;
     padding:32px 28px;
     padding-bottom:100px;
