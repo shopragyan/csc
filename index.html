@@ -163,9 +163,8 @@ h1{
     border:none;
     font-size:16px;
     cursor:pointer;
-    opacity:0.15;  
+    opacity:0.02;   
     transition:0.3s ease;
-    pointer-events:auto;
 }
 
 .open-btn{
@@ -178,30 +177,9 @@ h1{
     color:#fff;
 }
 
-.control-btn:hover{
-    opacity:1;
-    transform:scale(1.1);
-}
-
-    
-.open{
-    background:linear-gradient(135deg,#e6f4ea,#f1fbf5);
-    color:#0f9d58;
-    border:1px solid #0f9d58;
-    box-shadow:0 0 15px rgba(15,157,88,0.25);
-}
-
-.closed{
-    background:linear-gradient(135deg,#fdeaea,#fff5f5);
-    color:#d93025;
-    border:1px solid #d93025;
-    box-shadow:0 0 15px rgba(217,48,37,0.25);
-}
-
 .control-btn.active{
-    opacity:1 !important;
+    opacity:1 !important; 
     transform:scale(1.15);
-    box-shadow:0 0 15px rgba(0,0,0,0.4);
 }
 
 .open-btn.active{
@@ -226,14 +204,45 @@ h1{
     transition:0.2s ease;
 }
 
-.speakbtn:hover{
-    transform:translateY(-2px);
+.speakbt.control-btn{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    border:none;
+    font-size:16px;
+    cursor:pointer;
+    opacity:0.15;          
+    transition:0.3s ease;
 }
 
 .speakbtn:active{
     transform:scale(0.95);
 }
 
+
+.speakbtn{
+flex-shrink:0;
+width:54px;
+height:54px;
+border-radius:14px;
+border:none;
+background:linear-gradient(135deg,#1976d2,#42a5f5);
+color:#fff;
+font-size:24px;
+cursor:pointer;
+box-shadow:0 8px 20px rgba(0,0,0,0.25);
+transition:0.2s ease;
+}
+
+.speakbtn:hover{
+transform:translateY(-2px);
+}
+
+.speakbtn:active{
+transform:scale(0.95);
+}
+
+    
 footer{
     width:100%;
     background:#0f172a;
@@ -282,8 +291,8 @@ footer::after{
 <body>
 
 <div class="control-bar">
-    <button id="btnOpen" class="control-btn open-btn">🗝️</button>
-    <button id="btnClose" class="control-btn close-btn">🔐</button>
+    <button id="btnOpen" class="control-btn open-btn">🔑</button>
+<button id="btnClose" class="control-btn close-btn">🔒</button>
 </div>
 
 <div class="header">
@@ -359,7 +368,6 @@ function updateStatus(){
  else if(month>=4 && month<=6){ openTime=16*60+30; closeTime=18*60+30; }
  else{ openTime=15*60+30; closeTime=17*60+30; }
 
- // वेटिंग पीरियड
  let waitingPeriod=30; 
  let inWaiting=false;
  if(total >= closeTime && total <= closeTime + waitingPeriod){
@@ -378,22 +386,27 @@ function updateStatus(){
 function applyStatus(x){
  let e=document.getElementById("status");
  let btnOpen=document.getElementById("btnOpen");
- let btnClose=document.getElementById("btnClose");
-
- btnOpen.classList.remove("active");
- btnClose.classList.remove("active");
-
- if(x==="o"){ 
-     e.className="open"; 
-     e.innerHTML="🟢 प्रज्ञा केन्द्र अभी खुला है"; 
-     btnOpen.classList.add("active");   
- }
- else{ 
-     e.className="closed"; 
-     e.innerHTML="🔴 प्रज्ञा केन्द्र अभी बंद है"; 
-     btnClose.classList.add("active"); 
- }
+ let btnClose=documee");
 }
+else{
+    btnClose.classList.add("active");
+}
+
+btnOpen.classList.remove("active");
+btnClose.classList.remove("active");
+
+if(x==="o"){
+e.className="open";
+e.innerHTML="🟢 प्रज्ञा केन्द्र अभी खुला है";
+btnOpen.classList.add("active");
+}
+else{
+e.className="closed";
+e.innerHTML="🔴 प्रज्ञा केन्द्र अभी बंद है";
+btnClose.classList.add("active");
+}
+    }
+
 
 setInterval(updateStatus,60000);
 updateStatus();
@@ -462,7 +475,7 @@ document.getElementById("btnSpeak").onclick = function() {
     else{
         let hrClose=Math.floor(closeTime/60)%12; if(hrClose===0) hrClose=12;
         let minClose=closeTime%60;
-        let periodClose=रज्ञा केन्द्र केवल समय सारणी के अनुसार चलेगा"); };
+        let periodClose= अब यह प्रज्ञा केन्द्र केवल समय सारणी के अनुसार चलेगा"); };
 </script>
 </body>
 </html>
