@@ -117,14 +117,14 @@ body::before{
 }
 
 .welcome-message {
-    font-size: 12px;             /* टेक्स्ट बड़ा */
+    font-size: 16px;             /* टेक्स्ट बड़ा */
     font-weight: 700;            /* बोल्ड टेक्स्ट */
     text-align: center;          /* केंद्र में टेक्स्ट */
     color: #0d47a1;              /* गहरा नीला रंग */
     background: linear-gradient(135deg, #ff9933, #ffffff, #138808); /* हल्का तिरंगा ग्रेडिएंट */
     padding: 15px 20px;          /* अंदर का स्पेस */
     border-radius: 0.05px;         /* हल्का गोल कोना */
-    max-width: 600px;            /* डिवीजन की अधिकतम चौड़ाई */
+    max-width: 100%;            /* डिवीजन की अधिकतम चौड़ाई */
     margin: 0 auto;              /* केंद्र में रखें */
     box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* हल्का शैडो */
     position: relative;           /* slider के नीचे फ्लो में रहे */
@@ -296,27 +296,16 @@ footer::after{
 
 @media(max-width:480px){
 
-    .box{
-        margin:110px 15px 40px 15px;
-        padding:26px 20px;
-    }
 
-    h1{
+h1{
         font-size:19px;
     }
 
-    #status{
+#status{
         font-size:20px;
         padding:18px;
         min-width:200px;
     }
-
-    .speakbtn{
-        width:50px;
-        height:50px;
-        font-size:22px;
-    }
-}
 
 </style>
 
