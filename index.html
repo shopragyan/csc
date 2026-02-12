@@ -67,25 +67,30 @@ body::before{
     z-index: 1000;
 }
 
-.brand-title {
+.brand-title-container {
+    background-color: #000000;  
+    padding: 20px 0;            
     text-align: center;
+    z-index: 1100;
+    position: relative;
+    border-radius: 0.1px;
+}
+
+.brand-title {
     font-size: 48px;         
     font-weight: 900;
     background: linear-gradient(
         to right,
-        #FF9933,   /* केसरिया */
-        #FFFFFF,   /* सफेद */
-        #138808    /* हरा */
+        #FF9933,   
+        #FFFFFF,   
+        #138808    
     );
-    -webkit-background-clip: text;  /* gradient को text पर लगाना */
-    -webkit-text-fill-color: transparent; /* text को transparent करना ताकि gradient दिखे */
+    -webkit-background-clip: text;  
+    -webkit-text-fill-color: transparent; 
     background-clip: text;
     color: transparent;
-    line-height: 1.2;        
-    z-index: 1100;
-    position: relative;
-    background-color: #000000;
-    border-radius: 0.1px;
+    line-height: 1.2;   
+    display: inline-block;
 }
     
 .marquee{
@@ -127,18 +132,18 @@ body::before{
 }
 
 .welcome-message {
-    font-size: 16px;             /* टेक्स्ट बड़ा */
-    font-weight: 700;            /* बोल्ड टेक्स्ट */
-    text-align: center;          /* केंद्र में टेक्स्ट */
-    color: #0d47a1;              /* गहरा नीला रंग */
-    background: linear-gradient(135deg, #ff9933, #ffffff, #138808); /* हल्का तिरंगा ग्रेडिएंट */
-    padding: 15px 20px;          /* अंदर का स्पेस */
-    border-radius: 0.05px;         /* हल्का गोल कोना */
-    width: 100%;            /* डिवीजन की अधिकतम चौड़ाई */
-    margin: 0 auto;              /* केंद्र में रखें */
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* हल्का शैडो */
-    position: relative;           /* slider के नीचे फ्लो में रहे */
-    top: -5px;                   /* slider के बिल्कुल नीचे, ओवरलैप नहीं */
+    font-size: 16px;             
+    font-weight: 700;            
+    text-align: center;          
+    color: #0d47a1;              
+    background: linear-gradient(135deg, #ff9933, #ffffff, #138808); 
+    padding: 15px 20px;          
+    border-radius: 0.05px;         
+    width: 100%;            
+    margin: 0 auto;              
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
+    position: relative;           
+    top: -5px;                   
     }
     
 .box{
@@ -334,8 +339,8 @@ h1{
     
 <body>
 
-<div class="brand-title" id="brandTitle">
-    प्रज्ञा केन्द्र 
+<div class="brand-title-container">
+    <div class="brand-title">प्रज्ञा केन्द्र</div>
 </div>
 
 <div class="header">
@@ -347,7 +352,7 @@ h1{
 </div>
     
 <div class="welcome-message">
-    नमस्कार प्रज्ञा केन्द्र में आपका स्वागत है
+    🙏
 </div>
     
 <div class="control-bar">
