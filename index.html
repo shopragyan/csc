@@ -65,6 +65,16 @@ body::before{
     overflow:hidden;
     z-index:1000;
 }
+
+.brand-title {
+    text-align: center;
+    font-size: 60px;         
+    font-weight: 900;
+    line-height: 1.2;
+    margin-top: 10px;        
+    z-index: 1100;
+    position: relative;
+}
     
 .marquee{
     width:100%;
@@ -77,14 +87,10 @@ body::before{
     padding-left:100%;
     animation:slideText 12s linear infinite;
 
-    font-size:20px;
+    font-size:22px;
     font-weight:800;
-    letter-spacing:2px;
-    color:#000000;   
-
-    white-space:nowrap;
-    padding-left:100%;
-    animation:slideText 12s linear infinite;
+    letter-spacing:1px;
+    color: #ffffff;  
 }
 
 @keyframes slideText{
@@ -94,7 +100,7 @@ body::before{
 
 @media(max-width:480px){
     .marquee-text{
-        font-size:16px;
+        font-size:18px;
     }
 }
     
