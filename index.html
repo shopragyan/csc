@@ -111,20 +111,6 @@ h1{
     color:#0d47a1;
     letter-spacing:0.4px;
 }
-
-#clock{
-    font-size:21px;
-    font-weight:600;
-    margin-top:8px;
-    color:#0b3c91;
-}
-
-#todayDate,
-#todayFull{
-    margin-top:8px;
-    font-size:15px;
-    color:#555;
-}
     
 .status-wrap{
     display:flex;
@@ -199,7 +185,6 @@ h1{
 .speakbtn{
     flex-shrink:0;
     width:54px;
-    height:5   width:54px;
     height:54px;
     border-radius:14px;
     border:none;
@@ -208,9 +193,7 @@ h1{
     font-size:24px;
     cursor:pointer;
     box-shadow:0 8px 20px rgba(0,0,0,0.25);
-    trg:border-box;
-    z-index:1200;
-    pointer-events:none;
+    transition:0.2s ease;
 }
 
 .speakbtn:active{
@@ -218,6 +201,24 @@ h1{
 }
 .speakbtn:hover{
 transform:translateY(-2px);
+}
+
+.time-section{
+    margin-top:18px;
+}
+
+#clock{
+    font-size:20px;
+    font-weight:600;
+    margin-top:8px;
+    color:#0b3c91;
+}
+
+#todayDate,
+#todayFull{
+    margin-top:6px;
+    font-size:15px;
+    color:#555;
 }
     
 footer{
@@ -281,20 +282,22 @@ footer::after{
 </div>
     
 <div class="box">
-
+    
     <h1>प्रज्ञा केन्द्र__डिजिटल सेवा__सूचना पोर्टल</h1>
+    
+ <div class="status-wrap">
+    <div id="status" class="closed">
+        🔴 प्रज्ञा केन्द्र अभी बंद है
+    </div>
+    <button id="btnSpeak" class="speakbtn">🔊</button>
+ </div>
 
+ <div class="time-section">
     <div id="clock"></div>
     <div id="todayDate"></div>
     <div id="todayFull"></div>
-
-    <div class="status-wrap">
-        <div id="status" class="closed">
-            🔴 प्रज्ञा केन्द्र अभी बंद है
-        </div>
-        <button id="btnSpeak" class="speakbtn">🔊</button>
-    </div>
-
+ </div>
+    
 </div>
 
 <footer>
@@ -464,6 +467,12 @@ document.getElementById("btnSpeak").onclick = function() {
                     " बजे बंद होगा।";
     }
     bol(todayText + ". " + timeText + ". " + statusText + ". " + nextEventText);
+};
+
+document.getElementById("btnSpeak").onclick = function(){
+    bol("परीक्षण सफल है। आवाज काम कर रही है।");
+};
+
 </script>
 </body>
 </html>
