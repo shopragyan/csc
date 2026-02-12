@@ -50,17 +50,6 @@ body::before{
     overflow:hidden;
     z-index:1000;
 }
-
-.header::after{
-    content:"प्रज्ञा केन्द्र सेवा पोर्टल";
-    position:absolute;
-    left:50%;
-    transform:translateX(-50%);
-    color:#ffffff;
-    font-size:16px;
-    font-weight:600;
-    letter-spacing:0.5px;
-}
     
 .marquee{
     width:100%;
@@ -155,27 +144,28 @@ h1{
 }
 
 .control-bar{
-    margin-top:61px; 
+    position:fixed;
+    top:75px;  
+    left:0;
     width:100%;
     display:flex;
-    justify-content:center;
-    gap:15px;
-    padding:12px 10px;
-    background:#ffffff;
-    box-shadow:0 4px 10px rgba(0,0,0,0.08);
-    position:relative;
-    z-index:900;
+    justify-content:space-between;
+    padding:0 10px;
+    box-sizing:border-box;
+    z-index:1200;
+    pointer-events:none;
 }
 
 .control-btn{
-    padding:10px 18px;
+    width:38px;
+    height:38px;
+    border-radius:50%;
     border:none;
-    border-radius:8px;
-    font-size:14px;
-    font-weight:600;
+    font-size:16px;
     cursor:pointer;
-    transition:0.2s ease;
-    min-width:110px;
+    opacity:0.15;  
+    transition:0.3s ease;
+    pointer-events:auto;
 }
 
 .open-btn{
@@ -189,13 +179,10 @@ h1{
 }
 
 .control-btn:hover{
-    transform:translateY(-2px);
-    box-shadow:0 5px 12px rgba(0,0,0,0.2);
+    opacity:1;
+    transform:scale(1.1);
 }
 
-.control-btn:active{
-    transform:scale(0.95);
-}
     
 .open{
     background:linear-gradient(135deg,#e6f4ea,#f1fbf5);
@@ -315,7 +302,6 @@ footer::after{
 
 <footer>
     🙏 समय सारणी आधारित स्मार्ट सिस्टम • धन्यवाद 🙏
-    <div>© 2026 प्रज्ञा केन्द्र • सर्वाधिकार सुरक्षित</div>
 </footer>
 
 <script>
