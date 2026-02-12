@@ -57,17 +57,23 @@ body::before{
 
     background:linear-gradient(
         to right,
-        #FF6F00 0%,
-        #FF6F00 33%,
-        #000000 33%,
-        #000000 66%,
-        #0B8F2F 66%,
-        #0B8F2F 100%
+        #FF9933 0%,        /* केसरिया */
+        #FF9933 30%,
+        #ffffff 30%,       /* सफेद */
+        #ffffff 45%,
+        #000080 50%,       /* अशोक चक्र नीला */
+        #ffffff 55%,
+        #ffffff 70%,
+        #138808 70%,       /* हरा */
+        #138808 100%
     );
 
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
-}
+
+    text-shadow:0 1px 2px rgba(0,0,0,0.25);
+    }
+
 
     background:linear-gradient(
         to right,
@@ -114,9 +120,14 @@ body::before{
 
     font-size:20px;
     font-weight:800;
-    letter-spacing:1px;
-    color:#ffffff;
+    letter-spacing:2px;
+    color:#000000;   
+
+    white-space:nowrap;
+    padding-left:100%;
+    animation:slideText 12s linear infinite;
 }
+
 @keyframes slideText{
     0%{ transform:translateX(0); }
     100%{ transform:translateX(-100%); }
