@@ -126,6 +126,22 @@ h1{
     color:#555;
 }
 
+#status.open{
+    background:#e8f5e9;
+    color:#0f9d58;
+    border:3px solid #0f9d58;
+}
+
+#status.closed{
+    background:#ffebee;
+    color:#d93025;
+    border:3px solid #d93025;
+}
+
+#status{
+    box-shadow:0 0 15px rgba(0,0,0,0.1);
+}
+    
 .status-wrap{
     display:flex;
     align-items:center;
@@ -302,10 +318,7 @@ footer::after{
         </div>
     </div>
 </div>
-<div id="clock"></div>
-<div id="todayDate"></div>
-<div id="todayFull"></div>
-
+    
 <div class="box">
 
     <h1>प्रज्ञा केन्द्र__डिजिटल सेवा__सूचना पोर्टल</h1>
@@ -469,9 +482,21 @@ document.getElementById("btnSpeak").onclick = function() {
                       "वेटिंग पीरियड निर्धारित बन्द होने के समय के बाद 30 मिनट की रह सकती है। केन्द्र खुलने पर ही वेटिंग पीरियड लागू है या नहीं इसकी जानकारी दी जा सकती है।";
     }
     else{
-        let hrClose=Math.floor(closeTime/60)%12; if(hrClose===0) hrClose=12;
-        let minClose=closeTime%60;
-        let periodClose= अब यह प्रज्ञा केन्द्र केवल समय सारणी के अनुसार चलेगा"); };
+    let hrClose = Math.floor(closeTime/60)%12; 
+    if(hrClose===0) hrClose=12;
+
+    let minClose = closeTime%60;
+
+    let periodClose = (closeTime>=5*60 && closeTime<12*60)?"सुबह":
+                      (closeTime>=12*60 && closeTime<16*60)?"दोपहर":
+                      (closeTime>=16*60 && closeTime<20*60)?"शाम":"रात";
+
+    nextEventText = "प्रज्ञा केन्द्र आज " + periodClose + " " + 
+                    hrClose + ":" + 
+                    minClose.toString().padStart(2,'0') + 
+                    " बजे बंद होगा।";
+    }
+    bol(todayText + ". " + timeText + ". " + statusText + ". " + nextEventText);
 </script>
 </body>
 </html>
