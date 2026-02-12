@@ -23,7 +23,6 @@ body{
     -webkit-font-smoothing:antialiased;
 }
 
-/* ऊपर वाला कलर लाइन इफेक्ट */
 body::before{
     content:"";
     position:fixed;
@@ -37,7 +36,7 @@ body::before{
 
 .header{
     position:fixed;
-    top:6px; /* ऊपर 6px flag लाइन के नीचे */
+    top:6px; 
     left:0;
     width:100%;
     height:65px;
@@ -62,12 +61,7 @@ body::before{
     font-weight:600;
     letter-spacing:0.5px;
 }
-
-.marquee{
-    width:100%;
-    overflow:hidden;
-    positi
-}
+    
 .marquee{
     width:100%;
     overflow:hidden;
@@ -94,13 +88,6 @@ body::before{
         font-size:16px;
     }
 }
-    
-
-
-
-
-
-
     
 .keybtn{
     width:12px;
@@ -168,7 +155,7 @@ h1{
 }
 
 .control-bar{
-    margin-top:61px; /* header height + flag line */
+    margin-top:61px; 
     width:100%;
     display:flex;
     justify-content:center;
@@ -247,7 +234,6 @@ h1{
 }
 
 footer{
-footer{
     width:100%;
     background:#0f172a;
     color:#e2e8f0;
@@ -295,25 +281,42 @@ footer::after{
 <body>
 
 <div class="control-bar">
-    <button id="btnOpen" class="control-btn open-btn">🗝️/button>
+    <button id="btnOpen" class="control-btn open-btn">🗝️</button>
     <button id="btnClose" class="control-btn close-btn">🔐</button>
 </div>
 
 <div class="header">
     <div class="marquee">
         <div class="marquee-text">
-            🇮🇳 प्रज्ञा केंद्र स्मार्ट डिजिटल सेवा पोर्टल 🇮🇳
+            🇮🇳 प्रज्ञा केंद्र स्मार्ट सेवा पोर्टल 🇮🇳
         </div>
     </div>
 </div>
 <div id="clock"></div>
 <div id="todayDate"></div>
 <div id="todayFull"></div>
-<div class="status-wrap">
-  <div id="status" class="closed">🔴 प्रज्ञा केन्द्र अभी बंद है</div>
-  <button id="btnSpeak" class="speakbtn">🔊</button>
+
+<div class="box">
+
+    <h1>प्रज्ञा केन्द्र__डिजिटल सेवा__सूचना पोर्टल</h1>
+
+    <div id="clock"></div>
+    <div id="todayDate"></div>
+    <div id="todayFull"></div>
+
+    <div class="status-wrap">
+        <div id="status" class="closed">
+            🔴 प्रज्ञा केन्द्र अभी बंद है
+        </div>
+        <button id="btnSpeak" class="speakbtn">🔊</button>
+    </div>
+
 </div>
-</div>
+
+<footer>
+    🙏 समय सारणी आधारित स्मार्ट सिस्टम • धन्यवाद 🙏
+    <div>© 2026 प्रज्ञा केन्द्र • सर्वाधिकार सुरक्षित</div>
+</footer>
 
 <script>
 function getKolkataTime(){
@@ -366,7 +369,7 @@ function updateStatus(){
  let timetableOpen=(total>=openTime && total<=closeTime);
  let final="c";
  if(manual==="close"){ final="c"; }
- else if(timetableOpen || inWaiting){ final="o"; } // वेटिंग में खुला दिखाए
+ else if(timetableOpen || inWaiting){ final="o"; }
  else if(manual==="open"){ final="o"; }
 
  applyStatus(final);
@@ -417,7 +420,6 @@ document.getElementById("btnSpeak").onclick = function() {
     let inWaiting=false;
 
     if(totalMinutes >= closeTime && totalMinutes <= closeTime + waitingPeriod){
-        // वेटिंग पीरियड
         inWaiting=true;
         let hrClose=Math.floor(closeTime/60)%12; if(hrClose===0) hrClose=12;
         let minClose=closeTime%60;
@@ -430,7 +432,6 @@ document.getElementById("btnSpeak").onclick = function() {
                       "यदि कोई " + hrClose + ":" + minClose.toString().padStart(2,'0') + " तक पहुँचते हैं, तो केन्द्र "+ hrWait + ":" + minWait.toString().padStart(2,'0') + " तक सेवा जारी रखेगा।";
     }
     else if(totalMinutes < openTime){
-        // आज खुलने वाला
         let hrNext=Math.floor(openTime/60)%12; if(hrNext===0) hrNext=12;
         let minNext=openTime%60;
         let periodNext=(openTime>=5*60 && openTime<12*60)?"सुबह":(openTime>=12*60 && openTime<16*60)?"दोपहर":(openTime>=16*60 && openTime<20*60)?"शाम":"रात";
@@ -438,7 +439,6 @@ document.getElementById("btnSpeak").onclick = function() {
                       "वेटिंग पीरियड निर्धारित बन्द होने के समय के बाद 30 मिनट की रह सकती है। केन्द्र खुलने पर ही वेटिंग पीरियड लागू है या नहीं इसकी जानकारी दी जा सकती है।";
     }
     else if(totalMinutes > closeTime + waitingPeriod){
-        // अगला दिन खुलने वाला
         let hrNext=Math.floor(openTime/60)%12; if(hrNext===0) hrNext=12;
         let minNext=openTime%60;
         let periodNext=(openTime>=5*60 && openTime<12*60)?"सुबह":(openTime>=12*60 && openTime<16*60)?"दोपहर":(openTime>=16*60 && openTime<20*60)?"शाम":"रात";
@@ -446,28 +446,10 @@ document.getElementById("btnSpeak").onclick = function() {
                       "वेटिंग पीरियड निर्धारित बन्द होने के समय के बाद 30 मिनट की रह सकती है। केन्द्र खुलने पर ही वेटिंग पीरियड लागू है या नहीं इसकी जानकारी दी जा सकती है।";
     }
     else{
-        // अभी खुला है
         let hrClose=Math.floor(closeTime/60)%12; if(hrClose===0) hrClose=12;
         let minClose=closeTime%60;
-        let periodClose=(closeTime>=5*60 && closeTime<12*60)?"सुबह":(closeTime>=12*60 && closeTime<16*60)?"दोपहर":(closeTime>=16*60 && closeTime<20*60)?"शाम":"रात";
-        let hrWait=Math.floor((closeTime+waitingPeriod)/60)%12; if(hrWait===0) hrWait=12;
-        let minWait=(closeTime+waitingPeriod)%60;
-        nextEventText="प्रज्ञा केन्द्र अभी खुला है। केन्द्र आज " + periodClose + " " + hrClose + ":" + minClose.toString().padStart(2,'0') + " बजे बंद हो सकता है। "+
-                      "वेटिंग पीरियड निर्धारित बन्द होने के समय के बाद 30 मिनट की रह सकती है। अगर कोई "+ hrClose + ":"+ minClose.toString().padStart(2,'0') +
-                      " तक पहुँचते हैं तो केन्द्र "+ hrWait + ":" + minWait.toString().padStart(2,'0') + " तक सेवा जारी रखेगा।";
-    }
-
-    bol(statusText + "। " + todayText + "। " + timeText + "। " + nextEventText);
-};
-
-document.getElementById("btnOpen").onclick=function(){ manual="open"; updateStatus(); };
-document.getElementById("btnClose").onclick=function(){ manual="close"; updateStatus(); };
-document.getElementById("status").ondblclick=function(){ manual="none"; updateStatus(); alert("अब ये प्रज्ञा केन्द्र केवल समय सारणी के अनुसार चलेगा"); };
+        let periodClose=रज्ञा केन्द्र केवल समय सारणी के अनुसार चलेगा"); };
 </script>
-<footer>
-        🙏 समय सारणी आधारित स्मार्ट सिस्टम • धन्यवाद 🙏
-        <div>© 2026 प्रज्ञा केन्द्र • सर्वाधिकार सुरक्षित</div>
-</footer>
 </body>
 </html>
 
