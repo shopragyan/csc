@@ -88,6 +88,45 @@ body::before{
     cursor:pointer;
 }
 
+
+/* 🔐 🗝️ अलग लाइन में छोटे बटन */
+.lock-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:15px;
+    padding:0 10px;
+}
+
+.mini-btn{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    border:none;
+    font-size:20px;
+    background:#f1f1f1;
+    cursor:pointer;
+    box-shadow:0 4px 10px rgba(0,0,0,0.15);
+    transition:0.3s ease;
+    opacity:0.4;
+}
+
+/* Active state */
+.mini-btn.active{
+    opacity:1;
+    transform:scale(1.1);
+}
+
+/* Open glow */
+#btnOpen.active{
+    box-shadow:0 0 15px rgba(15,157,88,0.6);
+}
+
+/* Close glow */
+#btnClose.active{
+    box-shadow:0 0 15px rgba(217,48,37,0.6);
+}
+
 .box{
     max-width:480px;
     margin:120px auto 50px auto;
@@ -109,14 +148,6 @@ h1{
     margin-bottom:18px;
     color:#0d47a1;
     letter-spacing:0.4px;
-}
-    
-.status-wrap{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:16px;
-    margin-top:22px;
 }
 
 .control-bar{
@@ -180,6 +211,14 @@ h1{
     border:3px solid #d93025;
     box-shadow:0 0 20px rgba(217,48,37,0.4);
 }
+
+.status-wrap{  
+    display:flex;  
+    align-items:center;  
+    justify-content:center;  
+    gap:16px;  
+    margin-top:22px;  
+}  
     
 .speakbtn{
     flex-shrink:0;
@@ -275,17 +314,17 @@ footer::after{
     
 <body>
 
-<div class="control-bar">
-    <button id="btnOpen" class="control-btn open-btn">🔑</button>
-<button id="btnClose" class="control-btn close-btn">🔒</button>
-</div>
-
 <div class="header">
     <div class="marquee">
         <div class="marquee-text">
             🇮🇳 प्रज्ञा केंद्र स्मार्ट सेवा पोर्टल 🇮🇳
         </div>
     </div>
+</div>
+
+<div class="control-bar">
+    <button id="btnOpen" class="control-btn open-btn">🔑</button>
+<button id="btnClose" class="control-btn close-btn">🔒</button>
 </div>
     
 <div class="box">
@@ -367,38 +406,37 @@ function updateStatus(){
  applyStatus(final);
 }
 
-function applyStatus(state) {
-
-    let statusBox = document.getElementById("status");
-    let btnOpen   = document.getElementById("btnOpen");   // 🗝️
-    let btnClose  = document.getElementById("btnClose");  // 🔒
-
-    // पहले सब हटाओ
-    statusBox.classList.remove("open","closed");
-    btnOpen.classList.remove("active");
-    btnClose.classList.remove("active");
-
-    if(state === "o"){   // OPEN
-
-        statusBox.classList.add("open");
-        statusBox.innerHTML = "🟢 प्रज्ञा केन्द्र अभी खुला है";
-
-        btnOpen.classList.add("active");   // 🗝️ एक्टिव
-
-    }else{               // CLOSED
-
-        statusBox.classList.add("closed");
-        statusBox.innerHTML = "🔴 प्रज्ञा केन्द्र अभी बंद है";
-
-        btnClose.classList.add("active");  // 🔒 एक्टिव
-    }
-}
 
 setInterval(updateStatus,60000);
 updateStatus();
 
 function bol(text){
- let msg=new SpeechSynthesisUtterance();
+ let msg=new SpeechSynfunction applyStatus(state) {
+
+    let statusBox = document.getElementById("status");
+    let btnOpen   = document.getElementById("btnOpen");   
+    let btnClose  = document.getElementById("btnClose");  
+
+    // Reset
+    statusBox.classList.remove("open","closed");
+    btnOpen.classList.remove("active");
+    btnClose.classList.remove("active");
+
+    if(state === "open"){   // OPEN
+
+        statusBox.classList.add("open");
+        statusBox.innerHTML = "🟢 प्रज्ञा केन्द्र अभी खुला है";
+
+        btnOpen.classList.add("active");
+
+    }else{   // CLOSED
+
+        statusBox.classList.add("closed");
+        statusBox.innerHTML = "🔴 प्रज्ञा केन्द्र अभी बंद है";
+
+        btnClose.classList.add("active");
+    }
+ }thesisUtterance();
  msg.text=text;
  msg.lang="hi-IN";
  msg.rate=0.9;
