@@ -48,47 +48,6 @@ body::before{
     z-index:2000;
 }
 
-.brand-title{
-    text-align:center;
-    font-size:42px;
-    font-weight:900;
-    padding:18px 0;
-    letter-spacing:3px;
-
-    background:linear-gradient(
-        to right,
-        #FF9933 0%,        /* केसरिया */
-        #FF9933 30%,
-        #ffffff 30%,       /* सफेद */
-        #ffffff 45%,
-        #000080 50%,       /* अशोक चक्र नीला */
-        #ffffff 55%,
-        #ffffff 70%,
-        #138808 70%,       /* हरा */
-        #138808 100%
-    );
-
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-
-    text-shadow:0 1px 2px rgba(0,0,0,0.25);
-    }
-
-
-    background:linear-gradient(
-        to right,
-        #FF9933 0%,
-        #FF9933 33%,
-        #ffffff 33%,
-        #ffffff 66%,
-        #138808 66%,
-        #138808 100%
-    );
-
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-}
-
 .header{
     position: relative;
     top:6px; 
@@ -341,8 +300,8 @@ footer::after{
     
 <body>
 
-<div class="brand-title">
-    प्रज्ञा केन्द्र
+<div class="brand-title" id="brandTitle">
+    प्रज्ञा केंद्र
 </div>
 
 <div class="header">
@@ -382,6 +341,22 @@ footer::after{
 </footer>
 
 <script>
+
+const title = document.getElementById("brandTitle");
+const text = title.textContent;
+title.textContent = "";  // clear original text
+
+for(let i=0; i<text.length; i++){
+    const span = document.createElement("span");
+    span.textContent = text[i];
+    if(i%2 === 0){
+        span.style.color = "#FF9933";  // केसरिया
+    } else {
+        span.style.color = "#138808";  // हरा
+    }
+    title.appendChild(span);
+}
+    
 function getKolkataTime(){
     return new Date(new Date().toLocaleString("en-US",{timeZone:"Asia/Kolkata"}));
 }
