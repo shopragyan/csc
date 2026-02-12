@@ -125,22 +125,6 @@ h1{
     font-size:15px;
     color:#555;
 }
-
-#status.open{
-    background:#e8f5e9;
-    color:#0f9d58;
-    border:3px solid #0f9d58;
-}
-
-#status.closed{
-    background:#ffebee;
-    color:#d93025;
-    border:3px solid #d93025;
-}
-
-#status{
-    box-shadow:0 0 15px rgba(0,0,0,0.1);
-}
     
 .status-wrap{
     display:flex;
@@ -148,6 +132,45 @@ h1{
     justify-content:center;
     gap:16px;
     margin-top:22px;
+}
+
+.control-bar{
+    position:fixed;
+    top:75px;  
+    left:0;
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    box-sizing:border-box;
+    z-index:1200;
+    pointer-events:none;
+}
+
+
+.control-btn{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    border:none;
+    font-size:26px;
+    cursor:pointer;
+    transition:0.3s ease;
+    opacity:0.25;   
+}
+
+.control-btn.active{
+    opacity:1 !important;
+    transform:scale(1.18);
+}
+
+/* 🟢 OPEN ACTIVE */
+.open-btn.active{
+    box-shadow:0 0 30px rgba(15,157,88,0.9);
+}
+
+/* 🔴 CLOSE ACTIVE */
+.close-btn.active{
+    box-shadow:0 0 30px rgba(217,48,37,0.9);
 }
 
 #status{
@@ -159,56 +182,24 @@ h1{
     transition:0.3s ease;
 }
 
-.control-bar{
-    position:fixed;
-    top:75px;  
-    left:0;
-    width:100%;
-    display:flex;
-    justify-content:space-between;
-    padding:0 10px;
-    box-sizing:border-box;
-    z-index:1200;
-    pointer-events:none;
+#status.open{
+    background:#e8f5e9;
+    color:#0f9d58;
+    border:3px solid #0f9d58;
+    box-shadow:0 0 20px rgba(15,157,88,0.4);
 }
 
-.control-btn{
-    width:38px;
-    height:38px;
-    border-radius:50%;
-    border:none;
-    font-size:16px;
-    cursor:pointer;
-    opacity:0.02;   
-    transition:0.3s ease;
+#status.closed{
+    background:#ffebee;
+    color:#d93025;
+    border:3px solid #d93025;
+    box-shadow:0 0 20px rgba(217,48,37,0.4);
 }
-
-.open-btn{
-    background:#0f9d58;
-    color:#fff;
-}
-
-.close-btn{
-    background:#d93025;
-    color:#fff;
-}
-
-.control-btn.active{
-    opacity:1 !important; 
-    transform:scale(1.15);
-}
-
-.open-btn.active{
-    box-shadow:0 0 18px rgba(15,157,88,0.8);
-}
-
-.close-btn.active{
-    box-shadow:0 0 18px rgba(217,48,37,0.8);
-}
-
+    
 .speakbtn{
     flex-shrink:0;
     width:54px;
+    height:5   width:54px;
     height:54px;
     border-radius:14px;
     border:none;
@@ -217,47 +208,17 @@ h1{
     font-size:24px;
     cursor:pointer;
     box-shadow:0 8px 20px rgba(0,0,0,0.25);
-    transition:0.2s ease;
-}
-
-.speakbt.control-btn{
-    width:38px;
-    height:38px;
-    border-radius:50%;
-    border:none;
-    font-size:16px;
-    cursor:pointer;
-    opacity:0.15;          
-    transition:0.3s ease;
+    trg:border-box;
+    z-index:1200;
+    pointer-events:none;
 }
 
 .speakbtn:active{
     transform:scale(0.95);
 }
-
-
-.speakbtn{
-flex-shrink:0;
-width:54px;
-height:54px;
-border-radius:14px;
-border:none;
-background:linear-gradient(135deg,#1976d2,#42a5f5);
-color:#fff;
-font-size:24px;
-cursor:pointer;
-box-shadow:0 8px 20px rgba(0,0,0,0.25);
-transition:0.2s ease;
-}
-
 .speakbtn:hover{
 transform:translateY(-2px);
 }
-
-.speakbtn:active{
-transform:scale(0.95);
-}
-
     
 footer{
     width:100%;
@@ -396,24 +357,30 @@ function updateStatus(){
  applyStatus(final);
 }
 
-function applyStatus(x) {
-    let e = document.getElementById("status");
-    let btnOpen = document.getElementById("btnOpen");
-    let btnClose = document.getElementById("btnClose");
+function applyStatus(state) {
 
-    e.classList.remove("open", "closed");
+    let statusBox = document.getElementById("status");
+    let btnOpen   = document.getElementById("btnOpen");   // 🗝️
+    let btnClose  = document.getElementById("btnClose");  // 🔒
 
+    // पहले सब हटाओ
+    statusBox.classList.remove("open","closed");
     btnOpen.classList.remove("active");
     btnClose.classList.remove("active");
 
-    if (x === "o") {
-        e.classList.add("open");                     
-        e.innerHTML = "🟢 प्रज्ञा केन्द्र अभी खुला है"; 
-        btnOpen.classList.add("active");             
-    } else {
-        e.classList.add("closed");                 
-        e.innerHTML = "🔴 प्रज्ञा केन्द्र अभी बंद है";
-        btnClose.classList.add("active");
+    if(state === "o"){   // OPEN
+
+        statusBox.classList.add("open");
+        statusBox.innerHTML = "🟢 प्रज्ञा केन्द्र अभी खुला है";
+
+        btnOpen.classList.add("active");   // 🗝️ एक्टिव
+
+    }else{               // CLOSED
+
+        statusBox.classList.add("closed");
+        statusBox.innerHTML = "🔴 प्रज्ञा केन्द्र अभी बंद है";
+
+        btnClose.classList.add("active");  // 🔒 एक्टिव
     }
 }
 
