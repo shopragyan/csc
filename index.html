@@ -5,8 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>प्रज्ञा केंद्र स्मार्ट सेवा पोर्टल</title>
 <style>
-body{
+    
+html, body{
+    height:100%;
     margin:0;
+    padding:0;
+}
+
+body{
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
     font-family:"Noto Sans Devanagari", Arial, sans-serif;
     background:linear-gradient(135deg,#eef3f9,#f9fbff);
     color:#1a1a1a;
@@ -14,6 +23,7 @@ body{
     -webkit-font-smoothing:antialiased;
 }
 
+/* ऊपर वाला कलर लाइन इफेक्ट */
 body::before{
     content:"";
     position:fixed;
@@ -27,17 +37,18 @@ body::before{
 
 .header{
     position:fixed;
-    top:0;
+    top:6px; /* ऊपर 6px flag लाइन के नीचे */
     left:0;
     width:100%;
     height:65px;
     display:flex;
     align-items:center;
-    justify-content:space-between;
-    padding:0 18px;
+    justify-content:center;
+    padding:0 15px;
     box-sizing:border-box;
     background:linear-gradient(135deg,#0d47a1,#1565c0);
-    box-shadow:0 4px 15px rgba(0,0,0,0.15);
+    box-shadow:0 4px 15px rgba(0,0,0,0.18);
+    overflow:hidden;
     z-index:1000;
 }
 
@@ -52,6 +63,45 @@ body::before{
     letter-spacing:0.5px;
 }
 
+.marquee{
+    width:100%;
+    overflow:hidden;
+    positi
+}
+.marquee{
+    width:100%;
+    overflow:hidden;
+    position:relative;
+}
+.marquee-text{
+    display:inline-block;
+    white-space:nowrap;
+    padding-left:100%;
+    animation:slideText 12s linear infinite;
+
+    font-size:20px;
+    font-weight:800;
+    letter-spacing:1px;
+    color:#ffffff;
+}
+@keyframes slideText{
+    0%{ transform:translateX(0); }
+    100%{ transform:translateX(-100%); }
+}
+
+@media(max-width:480px){
+    .marquee-text{
+        font-size:16px;
+    }
+}
+    
+
+
+
+
+
+
+    
 .keybtn{
     width:12px;
     height:12px;
@@ -70,6 +120,7 @@ body::before{
     border-radius:22px;
     box-shadow:0 20px 50px rgba(0,0,0,0.12);
     transition:0.3s ease;
+    flex:1;
 }
 
 .box:hover{
@@ -116,6 +167,49 @@ h1{
     transition:0.3s ease;
 }
 
+.control-bar{
+    margin-top:61px; /* header height + flag line */
+    width:100%;
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    padding:12px 10px;
+    background:#ffffff;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+    position:relative;
+    z-index:900;
+}
+
+.control-btn{
+    padding:10px 18px;
+    border:none;
+    border-radius:8px;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.2s ease;
+    min-width:110px;
+}
+
+.open-btn{
+    background:#0f9d58;
+    color:#fff;
+}
+
+.close-btn{
+    background:#d93025;
+    color:#fff;
+}
+
+.control-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 5px 12px rgba(0,0,0,0.2);
+}
+
+.control-btn:active{
+    transform:scale(0.95);
+}
+    
 .open{
     background:linear-gradient(135deg,#e6f4ea,#f1fbf5);
     color:#0f9d58;
@@ -153,15 +247,16 @@ h1{
 }
 
 footer{
-    margin-top:40px;
-    background:#111827;
-    color:#cbd5e1;
-    padding:18px 15px;
-    font-size:13px;
-    border-radius:0 0 22px 22px;
-    letter-spacing:0.4px;
+footer{
+    width:100%;
+    background:#0f172a;
+    color:#e2e8f0;
+    padding:20px 10px;
+    text-align:center;
+    font-size:14px;
+    margin-top:auto;
 }
-
+    
 footer::after{
     content:"© 2026 प्रज्ञा केन्द्र • सर्वाधिकार सुरक्षित";
     display:block;
@@ -194,19 +289,23 @@ footer::after{
     }
 }
 
-
-
 </style>
 </head>
+    
 <body>
 
-<div class="header">
-    <button id="btnOpen" class="keybtn">🗝️</button>
-    <button id="btnClose" class="keybtn">🔐</button>
+<div class="control-bar">
+    <button id="btnOpen" class="control-btn open-btn">🗝️/button>
+    <button id="btnClose" class="control-btn close-btn">🔐</button>
 </div>
 
-<div class="box">
-<h1>प्रज्ञा केन्द्र__डिजिटल सेवा__सूचना पोर्टल</h1>
+<div class="header">
+    <div class="marquee">
+        <div class="marquee-text">
+            🇮🇳 प्रज्ञा केंद्र स्मार्ट डिजिटल सेवा पोर्टल 🇮🇳
+        </div>
+    </div>
+</div>
 <div id="clock"></div>
 <div id="todayDate"></div>
 <div id="todayFull"></div>
@@ -365,12 +464,11 @@ document.getElementById("btnOpen").onclick=function(){ manual="open"; updateStat
 document.getElementById("btnClose").onclick=function(){ manual="close"; updateStatus(); };
 document.getElementById("status").ondblclick=function(){ manual="none"; updateStatus(); alert("अब ये प्रज्ञा केन्द्र केवल समय सारणी के अनुसार चलेगा"); };
 </script>
-
-</body>
-
-    <footer>
+<footer>
         🙏 समय सारणी आधारित स्मार्ट सिस्टम • धन्यवाद 🙏
         <div>© 2026 प्रज्ञा केन्द्र • सर्वाधिकार सुरक्षित</div>
-    </footer>
-    
+</footer>
+</body>
 </html>
+
+
