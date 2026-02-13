@@ -115,13 +115,7 @@ body::before{
     -webkit-background-clip: text;  
     -webkit-text-fill-color: transparent; 
     background-clip: text;
-    color: transparent;
-    line-height: 1.2;   
-    display: inline-block;
-}
-    
-
-.marquee {
+    colo.marquee {
     width: 100%;
     overflow: hidden;
     position: relative;
@@ -130,7 +124,7 @@ body::before{
 .marquee-track {
     display: flex;
     width: max-content;
-    animation: scroll 10s linear infinite;
+    animation: scroll 14s linear infinite;
 }
 
 .marquee-content {
@@ -139,9 +133,10 @@ body::before{
     font-weight: 800;
     letter-spacing: 1px;
     color: #ffffff;
-    padding-right: 100px;   
+    padding-right: 80px;
 }
 
+/* IMPORTANT */
 @keyframes scroll {
     0% {
         transform: translateX(0);
@@ -149,12 +144,9 @@ body::before{
     100% {
         transform: translateX(-50%);
     }
-}
-
-@media (max-width: 480px) {
-    .marquee-content {
-        font-size: 18px;
-    }
+}r: transparent;
+    line-height: 1.2;   
+    display: inline-block;
 }
 
     
@@ -423,20 +415,25 @@ h1{
 <div class="header">
     <div class="marquee">
     <div class="marquee-track">
+
+        <!-- Pattern 1 -->
         <div class="marquee-content">
-            प्रज्ञा केंद्र 🙏 सेवा पोर्टल 
+            प्रज्ञा केंद्र 🙏 सेवा पोर्टल
         </div>
         <div class="marquee-content">
-            प्रज्ञा केंद्र 🇮🇳 सेवा पोर्टल 
+            प्रज्ञा केंद्र 🇮🇳 सेवा पोर्टल
+        </div>
+
+        <!-- Exact Same Pattern Again -->
+        <div class="marquee-content">
+            प्रज्ञा केंद्र 🙏 सेवा पोर्टल
         </div>
         <div class="marquee-content">
-            प्रज्ञा केंद्र 🙏 सेवा पोर्टल 
+            प्रज्ञा केंद्र 🇮🇳 सेवा पोर्टल
         </div>
-        <div class="marquee-content">
-            प्रज्ञा केंद्र 🇮🇳 सेवा पोर्टल 
-        </div>
+
     </div>
-    </div>
+</div>
 </div>
     
 <div class="welcome-message">
