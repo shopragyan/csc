@@ -124,34 +124,32 @@ body::before{
     width: 100%;
     overflow: hidden;
     position: relative;
-    background: #0d47a1;
 }
 
 .marquee-text {
     display: flex;
-    width: max-content;
-    animation: slideText 12s linear infinite;
+    white-space: nowrap;
+    animation: slideText 18s linear infinite;
 }
 
 .marquee-text span {
-    white-space: nowrap;
     font-size: 22px;
     font-weight: 800;
     letter-spacing: 1px;
     color: #ffffff;
-    padding-right: 80px; 
+    padding-right: 120px;  
 }
 
 @keyframes slideText {
-    from {
-        transform: translateX(0);
+    0% {
+        transform: translateX(0%);
     }
-    to {
-        transform: translateX(-50%);
+    100% {
+        transform: translateX(-33.33%);
     }
 }
 
-@media (max-width:480px){
+@media (max-width: 480px) {
     .marquee-text span {
         font-size: 18px;
     }
@@ -422,6 +420,7 @@ h1{
 <div class="header">
     <div class="marquee">
     <div class="marquee-text">
+        <span>🇮🇳 प्रज्ञा केंद्र स्मार्ट सेवा पोर्टल 🇮🇳</span>
         <span>🇮🇳 प्रज्ञा केंद्र स्मार्ट सेवा पोर्टल 🇮🇳</span>
         <span>🇮🇳 प्रज्ञा केंद्र स्मार्ट सेवा पोर्टल 🇮🇳</span>
     </div>
