@@ -291,11 +291,23 @@ transform:translateY(-2px);
 .time-card{
     margin-top:20px;
     padding:18px 15px;
-    border-radius:16px;
-    background:#f4f8ff;
-    box-shadow:0 8px 20px rgba(0,0,0,0.08);
+    border: 1px solid transparent;
+    border-radius: 15px;
+    background-image: 
+        linear-gradient(white, white),
+        linear-gradient(to right, #FF9933, #FFFFFF, #138808);
+
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+
+    box-shadow: 0 0 15px rgba(19,136,8,0.6);
+    transition: 0.3s ease;
 }
 
+.time-card:hover {
+    box-shadow: 0 0 25px rgba(19,136,8,0.8);
+}
+    
 #clock{
     font-size:20px;
     font-weight:700;
