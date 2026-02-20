@@ -542,10 +542,17 @@ function updateStatus(){
  let month=d.getMonth()+1;
  let total=d.getHours()*60+d.getMinutes();
  let openTime=0,closeTime=0;
- if(month>=10 || month<=3){ openTime=15*60+30; closeTime=17*60+30; }
+    
+/* if(month>=10 || month<=3){ openTime=15*60+30; closeTime=17*60+30; }
  else if(month>=4 && month<=6){ openTime=16*60+30; closeTime=18*60+30; }
- else{ openTime=15*60+30; closeTime=17*60+30; }
+ else{ openTime=15*60+30; closeTime=17*60+30; } */
 
+if(month>=10 || month<=3){ openTime=15*60+30; closeTime=19*60; }
+else if(month>=4 && month<=6){ openTime=16*60+30; closeTime=19*60; }
+else{ openTime=15*60+30; closeTime=19*60; }
+
+let waitingPeriod=30;
+    
  let waitingPeriod=30; 
  let inWaiting=false;
  if(total >= closeTime && total <= closeTime + waitingPeriod){
@@ -617,10 +624,17 @@ document.getElementById("btnSpeak").onclick = function() {
 
     let month=d.getMonth()+1;
     let openTime=0, closeTime=0;
-    if(month>=10 || month<=3){ openTime=15*60+30; closeTime=17*60+30; }
+    
+    /* if(month>=10 || month<=3){ openTime=15*60+30; closeTime=17*60+30; }
     else if(month>=4 && month<=6){ openTime=16*60+30; closeTime=18*60+30; }
-    else{ openTime=15*60+30; closeTime=17*60+30; }
+    else{ openTime=15*60+30; closeTime=17*60+30; } */
 
+
+    if(month>=10 || month<=3){ openTime=15*60+30; closeTime=19*60; }
+    else if(month>=4 && month<=6){ openTime=16*60+30; closeTime=19*60; }
+    else{ openTime=15*60+30; closeTime=19*60; }
+
+    
     let waitingPeriod=30;
     let totalMinutes=hr*60+min;
     let nextEventText="";
@@ -667,7 +681,14 @@ document.getElementById("btnSpeak").onclick = function() {
                     minClose.toString().padStart(2,'0') + 
                     " बजे बंद होगा।";
     }
-    bol(todayText + ". " + timeText + ". " + statusText + ". " + nextEventText);
+
+
+    let temporaryNote = "यह समय कुछ दिनों के लिए अस्थायी रूप से लागू है और आगे बदल सकता है।";
+let updateNotice = "जब भी समय में कोई बदलाव होगा, सूचना इसी पोर्टल के माध्यम से सूचना दी जाएगी। धन्यवाद";
+
+bol(todayText + ". " + timeText + ". " + statusText + ". " + nextEventText + ". " + temporaryNote + ". " + updateNotice);
+    
+    /* bol(todayText + ". " + timeText + ". " + statusText + ". " + nextEventText); */
 };
 
 
