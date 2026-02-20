@@ -511,95 +511,97 @@ function getKolkataTime(){
     return new Date(new Date().toLocaleString("en-US",{timeZone:"Asia/Kolkata"}));
 }
 
+/* CLOCK */
+
 function updateClock(){
- let d=getKolkataTime();
- let hr=d.getHours()%12;
- if(hr==0) hr=12;
- let min=d.getMinutes();
- let sec=d.getSeconds();
- document.getElementById("clock").innerHTML=
- "वर्तमान समय: "+ hr.toString().padStart(2,'0')+":"+ min.toString().padStart(2,'0')+":"+ sec.toString().padStart(2,'0');
+    let d=getKolkataTime();
+    let hr=d.getHours()%12;
+    if(hr==0) hr=12;
+    let min=d.getMinutes();
+    let sec=d.getSeconds();
+
+    document.getElementById("clock").innerHTML=
+    "वर्तमान समय: "+
+    hr.toString().padStart(2,'0')+":"+
+    min.toString().padStart(2,'0')+":"+
+    sec.toString().padStart(2,'0');
 }
 setInterval(updateClock,1000);
 updateClock();
 
+/* DATE */
+
 function showDate(){
- let d=getKolkataTime();
- const months=["जनवरी","फरवरी","मार्च","अप्रैल","मई","जून","जुलाई","अगस्त","सितंबर","अक्टूबर","नवंबर","दिसंबर"];
- const days=["रविवार","सोमवार","मंगलवार","बुधवार","गुरुवार","शुक्रवार","शनिवार"];
- document.getElementById("todayDate").innerHTML=
- d.getDate().toString().padStart(2,'0')+"/"+
- (d.getMonth()+1).toString().padStart(2,'0')+"/"+
- d.getFullYear();
- document.getElementById("todayFull").innerHTML=
- "आज है: "+d.getDate()+" "+months[d.getMonth()]+" "+d.getFullYear()+" दिन "+days[d.getDay()];
+    let d=getKolkataTime();
+
+    const months=["जनवरी","फरवरी","मार्च","अप्रैल","मई","जून","जुलाई","अगस्त","सितंबर","अक्टूबर","नवंबर","दिसंबर"];
+    const days=["रविवार","सोमवार","मंगलवार","बुधवार","गुरुवार","शुक्रवार","शनिवार"];
+
+    document.getElementById("todayDate").innerHTML=
+    d.getDate().toString().padStart(2,'0')+"/"+
+    (d.getMonth()+1).toString().padStart(2,'0')+"/"+
+    d.getFullYear();
+
+    document.getElementById("todayFull").innerHTML=
+    "आज है: "+d.getDate()+" "+months[d.getMonth()]+" "+d.getFullYear()+" दिन "+days[d.getDay()];
 }
 showDate();
 
-let manual="none";
-    
-function applyStatus(state) {
+/* STATUS */
+
+function applyStatus(state){
 
     let statusBox = document.getElementById("status");
-    let btnOpen   = document.getElementById("btnOpen");   // 🗝️
-    let btnClose  = d दिन "+days[d.getDay()];
-}
-showDate();
+    if(!statusBox) return;
 
-let manual="none";
+    if(state === "o"){
+        statusBox.innerHTML = "🟢 प्रज्ञा केन्द्र अभी खुला है";
+    }else{
+        statusBox.innerHTML = "🔴 प्रज्ञा केन्द्र अभी बंद है";
+    }
+}
 
 function updateStatus(){
 
- let d = getKolkataTime();
- let month = d.getMonth() + 1;
- let total = d.getHours()*60 + d.getMinutes();
+    let d = getKolkataTime();
+    let month = d.getMonth() + 1;
+    let total = d.getHours()*60 + d.getMinutes();
 
- let openTime = 0, closeTime = 0;
+    let openTime = 0, closeTime = 0;
 
- // महीनों के अनुसार समय
- if(month >= 10 || month <= 3){
-     openTime = 15*60 + 30;   // 3:30 PM
-     closeTime = 18*60 + 30;  // 6:30 PM
- }
- else if(month >= 4 && month <= 6){
-     openTime = 16*60 + 30;   // 4:30 PM
-     closeTime = 18*60 + 30;  // 6:30 PM
- }
- else{
-     openTime = 15*60 + 30;   // 3:30 PM
-     closeTime = 18*60 + 30;  // 6:30 PM
- }
+    // महीनों के अनुसार समय
+    if(month >= 10 || month <= 3){
+        openTime = 15*60 + 30;   // 3:30 PM
+        closeTime = 18*60 + 30;  // 6:30 PM
+    }
+    else if(month >= 4 && month <= 6){
+        openTime = 16*60 + 30;   // 4:30 PM
+        closeTime = 18*60 + 30;  // 6:30 PM
+    }
+    else{
+        openTime = 15*60 + 30;
+        closeTime = 18*60 + 30;
+    }
 
- let waitingPeriod = 30; // 30 मिनट
- let inWaiting = false;
+    let waitingPeriod = 30; // 30 मिनट
+    let inWaiting = false;
 
- // 6:30 से 7:00 तक waiting
- if(total >= closeTime && total < closeTime + waitingPeriod){
-     inWaiting = true;
- }
+    if(total >= closeTime && total < closeTime + waitingPeriod){
+        inWaiting = true;
+    }
 
- let timetableOpen = (total >= openTime && total < closeTime);
+    let timetableOpen = (total >= openTime && total < closeTime);
 
- let final = "c";
+    let final = "c";
 
- if(manual === "close"){
-     final = "c";
- }
- else if(manual === "open"){
-     final = "o";
- }
- else if(timetableOpen || inWaiting){
-     final = "o";
- }
- else{
-     final = "c";
- }
+    if(timetableOpen || inWaiting){
+        final = "o";
+    }
 
- applyStatus(final);
+    applyStatus(final);
 }
-    
 
-setInterval(updateStatus,60000);
+setInterval(updateStatus,1000);
 updateStatus();
 
 function bol(text){
