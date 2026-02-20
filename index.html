@@ -35,6 +35,7 @@ body{
     text-align:center;
     -webkit-font-smoothing:antialiased;
 }
+}
 
 body::before{
     content:"";
@@ -400,8 +401,6 @@ h1{
         min-width:200px;
     }
 
-}
-
 </style>
 
 </head>
@@ -511,106 +510,64 @@ function getKolkataTime(){
     return new Date(new Date().toLocaleString("en-US",{timeZone:"Asia/Kolkata"}));
 }
 
-/* CLOCK */
-
 function updateClock(){
-    let d=getKolkataTime();
-    let hr=d.getHours()%12;
-    if(hr==0) hr=12;
-    let min=d.getMinutes();
-    let sec=d.getSeconds();
-
-    document.getElementById("clock").innerHTML=
-    "वर्तमान समय: "+
-    hr.toString().padStart(2,'0')+":"+
-    min.toString().padStart(2,'0')+":"+
-    sec.toString().padStart(2,'0');
+ let d=getKolkataTime();
+ let hr=d.getHours()%12;
+ if(hr==0) hr=12;
+ let min=d.getMinutes();
+ let sec=d.getSeconds();
+ document.getElementById("clock").innerHTML=
+ "वर्तमान समय: "+ hr.toString().padStart(2,'0')+":"+ min.toString().padStart(2,'0')+":"+ sec.toString().padStart(2,'0');
 }
 setInterval(updateClock,1000);
 updateClock();
 
-/* DATE */
-
 function showDate(){
-    let d=getKolkataTime();
-
-    const months=["जनवरी","फरवरी","मार्च","अप्रैल","मई","जून","जुलाई","अगस्त","सितंबर","अक्टूबर","नवंबर","दिसंबर"];
-    const days=["रविवार","सोमवार","मंगलवार","बुधवार","गुरुवार","शुक्रवार","शनिवार"];
-
-    document.getElementById("todayDate").innerHTML=
-    d.getDate().toString().padStart(2,'0')+"/"+
-    (d.getMonth()+1).toString().padStart(2,'0')+"/"+
-    d.getFullYear();
-
-    document.getElementById("todayFull").innerHTML=
-    "आज है: "+d.getDate()+" "+months[d.getMonth()]+" "+d.getFullYear()+" दिन "+days[d.getDay()];
+ let d=getKolkataTime();
+ const months=["जनवरी","फरवरी","मार्च","अप्रैल","मई","जून","जुलाई","अगस्त","सितंबर","अक्टूबर","नवंबर","दिसंबर"];
+ const days=["रविवार","सोमवार","मंगलवार","बुधवार","गुरुवार","शुक्रवार","शनिवार"];
+ document.getElementById("todayDate").innerHTML=
+ d.getDate().toString().padStart(2,'0')+"/"+
+ (d.getMonth()+1).toString().padStart(2,'0')+"/"+
+ d.getFullYear();
+ document.getElementById("todayFull").innerHTML=
+ "आज है: "+d.getDate()+" "+months[d.getMonth()]+" "+d.getFullYear()+" दिन "+days[d.getDay()];
 }
 showDate();
 
-/* STATUS */
-
-function applyStatus(state){
-
-    let statusBox = document.getElementById("status");
-    if(!statusBox) return;
-
-    if(state === "o"){
-        statusBox.innerHTML = "🟢 प्रज्ञा केन्द्र अभी खुला है";
-    }else{
-        statusBox.innerHTML = "🔴 प्रज्ञा केन्द्र अभी बंद है";
-    }
-}
+let manual="none";
 
 function updateStatus(){
+ let d=getKolkataTime();
+ let month=d.getMonth()+1;
+ let total=d.getHours()*60+d.getMinutes();
+ let openTime=0,closeTime=0;
+ if(month>=10 || month<=3){ openTime=15*60+30; closeTime=18*60+30; }
+ else if(month>=4 && month<=6){ openTime=16*60+30; closeTime=18*60+30; }
+ else{ openTime=15*60+30; closeTime=18*60+30; }
 
-    let d = getKolkataTime();
-    let month = d.getMonth() + 1;
-    let total = d.getHours()*60 + d.getMinutes();
+ let waitingPeriod=30; 
+ let inWaiting=false;
+ if(total >= closeTime && total <= closeTime + waitingPeriod){
+    inWaiting=true;
+ }
 
-    let openTime = 0, closeTime = 0;
+ let timetableOpen=(total>=openTime && total<=closeTime);
+ let final="c";
+ if(manual==="close"){ final="c"; }
+ else if(timetableOpen || inWaiting){ final="o"; }
+ else if(manual==="open"){ final="o"; }
 
-    // महीनों के अनुसार समय
-    if(month >= 10 || month <= 3){
-        openTime = 15*60 + 30;   // 3:30 PM
-        closeTime = 18*60 + 30;  // 6:30 PM
-    }
-    else if(month >= 4 && month <= 6){
-        openTime = 16*60 + 30;   // 4:30 PM
-        closeTime = 18*60 + 30;  // 6:30 PM
-    }
-    else{
-        openTime = 15*60 + 30;
-        closeTime = 18*60 + 30;
-    }
-
-    let waitingPeriod = 30; // 30 मिनट
-    let inWaiting = false;
-
-    if(total >= closeTime && total < closeTime + waitingPeriod){
-        inWaiting = true;
-    }
-
-    let timetableOpen = (total >= openTime && total < closeTime);
-
-    let final = "c";
-
-    if(timetableOpen || inWaiting){
-        final = "o";
-    }
-
-    applyStatus(final);
+ applyStatus(final);
 }
 
-setInterval(updateStatus,1000);
-updateStatus();
-
-function bol(text){
- let msg=function applyStatus(state){
+function applyStatus(state) {
 
     let statusBox = document.getElementById("status");
-    let btnOpen = document.getElementById("btnOpen");
-    let btnClose = document.getElementById("btnClose");
+    let btnOpen   = document.getElementById("btnOpen");   // 🗝️
+    let btnClose  = document.getElementById("btnClose");  // 🔒
 
+    // पहले सब हटाओ
     statusBox.classList.remove("open","closed");
     btnOpen.classList.remove("active");
     btnClose.classList.remove("active");
@@ -620,16 +577,22 @@ function bol(text){
         statusBox.classList.add("open");
         statusBox.innerHTML = "🟢 प्रज्ञा केन्द्र अभी खुला है";
 
-        btnOpen.classList.add("active");
+        btnOpen.classList.add("active");   // 🗝️ एक्टिव
 
     }else{               // CLOSED
 
         statusBox.classList.add("closed");
         statusBox.innerHTML = "🔴 प्रज्ञा केन्द्र अभी बंद है";
 
-        btnClose.classList.add("active");
+        btnClose.classList.add("active");  // 🔒 एक्टिव
     }
- }new SpeechSynthesisUtterance();
+}
+
+setInterval(updateStatus,60000);
+updateStatus();
+
+function bol(text){
+ let msg=new SpeechSynthesisUtterance();
  msg.text=text;
  msg.lang="hi-IN";
  msg.rate=0.9;
@@ -654,19 +617,10 @@ document.getElementById("btnSpeak").onclick = function() {
 
     let month=d.getMonth()+1;
     let openTime=0, closeTime=0;
-    if(month>=10 || month<=3){
-    openTime = 15*60 + 30;   // 3:30 PM
-    closeTime = 18*60 + 30;  // 6:30 PM
-}
-else if(month>=4 && month<=6){
-    openTime = 16*60 + 30;   // 4:30 PM
-    closeTime = 18*60 + 30;  // 6:30 PM
-}
-else{
-    openTime = 15*60 + 30;   // 3:30 PM
-    closeTime = 18*60 + 30;  // 6:30 PM
-}
-    
+    if(month>=10 || month<=3){ openTime=15*60+30; closeTime=18*60+30; }
+    else if(month>=4 && month<=6){ openTime=16*60+30; closeTime=18*60+30; }
+    else{ openTime=15*60+30; closeTime=18*60+30; }
+
     let waitingPeriod=30;
     let totalMinutes=hr*60+min;
     let nextEventText="";
@@ -689,14 +643,14 @@ else{
         let minNext=openTime%60;
         let periodNext=(openTime>=5*60 && openTime<12*60)?"सुबह":(openTime>=12*60 && openTime<16*60)?"दोपहर":(openTime>=16*60 && openTime<20*60)?"शाम":"रात";
         nextEventText="प्रज्ञा केन्द्र आज " + periodNext + " " + hrNext + ":" + minNext.toString().padStart(2,'0') + " बजे खुलेगा। "+
-                      "वेटिंग पीरियड निर्धारित बन्द होने के समय के बाद 30 मिनट की रह सकती है। केन्द्र खुलने पर ही वेटिंग पीरियड लागू है या नहीं इसकी जानकारी दी जा सकती है।";
+                      "वेटिंग पीरियड निर्धारित बन्द होने के समय के बाद 30 मिनट की रह सकती है।";
     }
     else if(totalMinutes > closeTime + waitingPeriod){
         let hrNext=Math.floor(openTime/60)%12; if(hrNext===0) hrNext=12;
         let minNext=openTime%60;
         let periodNext=(openTime>=5*60 && openTime<12*60)?"सुबह":(openTime>=12*60 && openTime<16*60)?"दोपहर":(openTime>=16*60 && openTime<20*60)?"शाम":"रात";
         nextEventText="केन्द्र अब कल " + periodNext + " " + hrNext + ":" + minNext.toString().padStart(2,'0') + " बजे खुलेगा। "+
-                      "वेटिंग पीरियड निर्धारित बन्द होने के समय के बाद 30 मिनट की रह सकती है। केन्द्र खुलने पर ही वेटिंग पीरियड लागू है या नहीं इसकी जानकारी दी जा सकती है।";
+                      "वेटिंग पीरियड निर्धारित बन्द होने के समय के बाद 30 मिनट की रह सकती है।";
     }
     else{
     let hrClose = Math.floor(closeTime/60)%12; 
@@ -713,12 +667,7 @@ else{
                     minClose.toString().padStart(2,'0') + 
                     " बजे बंद होगा।";
     }
-
-
-    let temporaryNote = "यह नया समय कुछ दिनों के लिए अस्थायी रूप से लागू रहेगा और आगे बदलाव भी किया जा सकता है।";
-let updateNotice = "जब भी समय में कोई बदलाव होगा, सूचना इसी पोर्टल के माध्यम से दी जाएगी। धन्यवाद";
-
-bol(todayText + ". " + timeText + ". " + statusText + ". " + nextEventText + ". " + temporaryNote + ". " + updateNotice);
+    bol(todayText + ". " + timeText + ". " + statusText + ". " + nextEventText);
 };
 
 
