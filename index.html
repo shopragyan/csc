@@ -667,7 +667,12 @@ document.getElementById("btnSpeak").onclick = function() {
                     minClose.toString().padStart(2,'0') + 
                     " बजे बंद होगा।";
     }
-    bol(todayText + ". " + timeText + ". " + statusText + ". " + nextEventText);
+
+let temporaryNote = "यह नया समय कुछ दिनों के लिए अस्थायी रूप से लागू रहेगा और आगे बदलाव भी किया जा सकता है।";
+
+let updateNotice = "जब भी समय में कोई बदलाव होगा, सूचना इसी पोर्टल के माध्यम से दी जाएगी। धन्यवाद";
+
+bol(todayText + ". " + timeText + ". " + statusText + ". " + nextEventText + ". " + temporaryNote + ". " + updateNotice);
 };
 
 
