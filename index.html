@@ -542,9 +542,9 @@ function updateStatus(){
  let month=d.getMonth()+1;
  let total=d.getHours()*60+d.getMinutes();
  let openTime=0,closeTime=0;
- if(month>=10 || month<=3){ openTime=15*60+30; closeTime=18*60+30; }
- else if(month>=4 && month<=6){ openTime=16*60+30; closeTime=18*60+30; }
- else{ openTime=15*60+30; closeTime=18*60+30; }
+ if(month>=10 || month<=3){ openTime=15*60+30; closeTime=19*60+30; }
+ else if(month>=4 && month<=6){ openTime=16*60+30; closeTime=19*60+30; }
+ else{ openTime=15*60+30; closeTime=19*60+30; }
 
  let waitingPeriod=30; 
  let inWaiting=false;
@@ -617,9 +617,9 @@ document.getElementById("btnSpeak").onclick = function() {
 
     let month=d.getMonth()+1;
     let openTime=0, closeTime=0;
-    if(month>=10 || month<=3){ openTime=15*60+30; closeTime=18*60+30; }
-    else if(month>=4 && month<=6){ openTime=16*60+30; closeTime=18*60+30; }
-    else{ openTime=15*60+30; closeTime=18*60+30; }
+    if(month>=10 || month<=3){ openTime=15*60+30; closeTime=19*60+30; }
+    else if(month>=4 && month<=6){ openTime=16*60+30; closeTime=19*60+30; }
+    else{ openTime=15*60+30; closeTime=19*60+30; }
 
     let waitingPeriod=30;
     let totalMinutes=hr*60+min;
