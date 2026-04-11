@@ -545,6 +545,9 @@ function updateStatus(){
  if(month>=10 || month<=3){ openTime=15*60+30; closeTime=18*60+30; }
  else if(month>=4 && month<=6){ openTime=16*60+30; closeTime=18*60+30; }
  else{ openTime=15*60+30; closeTime=18*60+30; }
+    // 🟢 सुबह का समय (NEW)
+let morningOpen = 8*60+30;   // 08:30
+let morningClose = 9*60+30;  // 09:30
 
  let waitingPeriod=30; 
  let inWaiting=false;
@@ -552,7 +555,9 @@ function updateStatus(){
     inWaiting=true;
  }
 
- let timetableOpen=(total>=openTime && total<=closeTime);
+ let timetableOpen =
+    (total>=morningOpen && total<=morningClose) ||   // 🟢 सुबह
+    (total>=openTime && total<=closeTime);           // 🟠 शाम
  let final="c";
  if(manual==="close"){ final="c"; }
  else if(timetableOpen || inWaiting){ final="o"; }
@@ -616,7 +621,11 @@ document.getElementById("btnSpeak").onclick = function() {
     let timeText = "समय है " + period + " " + hr12 + ":" + min.toString().padStart(2,'0');
 
     let month=d.getMonth()+1;
+    
     let openTime=0, closeTime=0;
+    // 🟢 सुबह (NEW)
+let morningOpen = 8*60+30;
+let morningClose = 9*60+30;
     if(month>=10 || month<=3){ openTime=15*60+30; closeTime=18*60+30; }
     else if(month>=4 && month<=6){ openTime=16*60+30; closeTime=18*60+30; }
     else{ openTime=15*60+30; closeTime=18*60+30; }
@@ -638,14 +647,19 @@ document.getElementById("btnSpeak").onclick = function() {
                       "केन्द्र आधिकारिक रूप से " + periodClose + " " + hrClose + ":" + minClose.toString().padStart(2,'0') + " बजे बंद होगा। "+
                       "यदि कोई " + hrClose + ":" + minClose.toString().padStart(2,'0') + " तक पहुँचते हैं, तो केन्द्र "+ hrWait + ":" + minWait.toString().padStart(2,'0') + " तक सेवा जारी रखेगा।";
     }
-    else if(totalMinutes < openTime){
+    else if(totalMinutes < morningOpen){
+    nextEventText = "प्रज्ञा केन्द्र आज सुबह 08:30 बजे खुलेगा और 09:30 बजे तक सेवाएं उपलब्ध रहेंगी। इसके बाद शाम में पुनः खुलेगा।";
         let hrNext=Math.floor(openTime/60)%12; if(hrNext===0) hrNext=12;
         let minNext=openTime%60;
         let periodNext=(openTime>=5*60 && openTime<12*60)?"सुबह":(openTime>=12*60 && openTime<16*60)?"दोपहर":(openTime>=16*60 && openTime<20*60)?"शाम":"रात";
         nextEventText="प्रज्ञा केन्द्र आज " + periodNext + " " + hrNext + ":" + minNext.toString().padStart(2,'0') + " बजे खुलेगा। "+
                       "वेटिंग पीरियड निर्धारित बन्द होने के समय के बाद 30 मिनट की रह सकती है।";
     }
-    else if(totalMinutes>=closeTime+waitingPeriod){
+    else if(totalMinutes >= morningOpen && totalMinutes <= morningClose){
+    nextEventText = "प्रज्ञा केन्द्र अभी खुला है और सुबह 09:30 बजे तक सेवाएं उपलब्ध रहेंगी। इसके बाद केन्द्र शाम में पुनः खुलेगा।";
+}
+else if(totalMinutes > morningClose && totalMinutes < openTime){
+    nextEventText = "प्रज्ञा केन्द्र अभी बंद है। कृपया सुबह 08:30 से 09:30 के बीच आएँ या फिर शाम में पुनः खुलेगा।";
 
     let hrOpen=Math.floor(openTime/60)%12; 
     if(hrOpen===0) hrOpen=12;
