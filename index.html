@@ -612,115 +612,75 @@ document.getElementById("btnSpeak").onclick = function() {
     let d=getKolkataTime();
     let hr=d.getHours();
     let min=d.getMinutes();
+
     let period = "";
     if(hr >= 5 && hr < 12) period = "सुबह";
     else if(hr >= 12 && hr < 16) period = "दोपहर";
     else if(hr >= 16 && hr < 20) period = "शाम";
     else period = "रात";
+
     let hr12 = hr % 12; if(hr12===0) hr12=12;
+
     let timeText = "समय है " + period + " " + hr12 + ":" + min.toString().padStart(2,'0');
 
-    let month=d.getMonth()+1;
-    
-    let openTime=0, closeTime=0;
-    // 🟢 सुबह (NEW)
-let morningOpen = 8*60+30;
-let morningClose = 9*60+30;
-    if(month>=10 || month<=3){ openTime=15*60+30; closeTime=18*60+30; }
-    else if(month>=4 && month<=6){ openTime=16*60+30; closeTime=18*60+30; }
-    else{ openTime=15*60+30; closeTime=18*60+30; }
+    let morningOpen = 8*60+30;
+    let morningClose = 9*60+30;
+    let openTime = 16*60+30;   // 04:30 PM
+    let closeTime = 18*60+30;  // 06:30 PM
+    let waitingPeriod = 30;
 
-    let waitingPeriod=30;
-    let totalMinutes=hr*60+min;
-    let nextEventText="";
-    let inWaiting=false;
+    let totalMinutes = hr*60+min;
+    let nextEventText = "";
 
     if(totalMinutes >= closeTime && totalMinutes <= closeTime + waitingPeriod){
-        inWaiting=true;
-        let hrClose=Math.floor(closeTime/60)%12; if(hrClose===0) hrClose=12;
-        let minClose=closeTime%60;
-        let periodClose=(closeTime>=5*60 && closeTime<12*60)?"सुबह":(closeTime>=12*60 && closeTime<16*60)?"दोपहर":(closeTime>=16*60 && closeTime<20*60)?"शाम":"रात";
-        let hrWait=Math.floor((closeTime+waitingPeriod)/60)%12; if(hrWait===0) hrWait=12;
-        let minWait=(closeTime+waitingPeriod)%60;
 
-        nextEventText="केन्द्र अभी निर्धारित बन्द होने के समय के बाद वेटिंग पीरियड में चल रहा है। "+
-                      "केन्द्र आधिकारिक रूप से " + periodClose + " " + hrClose + ":" + minClose.toString().padStart(2,'0') + " बजे बंद होगा। "+
-                      "यदि कोई " + hrClose + ":" + minClose.toString().padStart(2,'0') + " तक पहुँचते हैं, तो केन्द्र "+ hrWait + ":" + minWait.toString().padStart(2,'0') + " तक सेवा जारी रखेगा।";
+        nextEventText =
+        "केन्द्र अभी निर्धारित बन्द होने के समय के बाद वेटिंग पीरियड में चल रहा है। " +
+        "केन्द्र आधिकारिक रूप से शाम 06:30 बजे बंद होगा। " +
+        "यदि कोई 06:30 तक पहुँचते हैं, तो केन्द्र 07:00 बजे तक सेवा जारी रखेगा।";
     }
+
     else if(totalMinutes < morningOpen){
-    nextEventText = "प्रज्ञा केन्द्र आज सुबह 08:30 बजे खुलेगा और 09:30 बजे तक सेवाएं उपलब्ध रहेंगी। इसके बाद शाम में पुनः खुलेगा।";
-        let hrNext=Math.floor(openTime/60)%12; if(hrNext===0) hrNext=12;
-        let minNext=openTime%60;
-        let periodNext=(openTime>=5*60 && openTime<12*60)?"सुबह":(openTime>=12*60 && openTime<16*60)?"दोपहर":(openTime>=16*60 && openTime<20*60)?"शाम":"रात";
-        nextEventText="प्रज्ञा केन्द्र आज " + periodNext + " " + hrNext + ":" + minNext.toString().padStart(2,'0') + " बजे खुलेगा। "+
-                      "वेटिंग पीरियड निर्धारित बन्द होने के समय के बाद 30 मिनट की रह सकती है।";
+
+        nextEventText =
+        "प्रज्ञा केन्द्र आज सुबह 08:30 बजे खुलेगा और 09:30 बजे तक सेवाएं उपलब्ध रहेंगी। इसके बाद केन्द्र शाम 04:30 बजे पुनः खुलेगा।";
     }
+
     else if(totalMinutes >= morningOpen && totalMinutes <= morningClose){
-    nextEventText = "प्रज्ञा केन्द्र अभी खुला है और सुबह 09:30 बजे तक सेवाएं उपलब्ध रहेंगी। इसके बाद केन्द्र शाम में पुनः खुलेगा।";
-}
-else if(totalMinutes > morningClose && totalMinutes < openTime){
-    nextEventText = "प्रज्ञा केन्द्र अभी बंद है। कृपया सुबह 08:30 से 09:30 के बीच आएँ या फिर शाम में पुनः खुलेगा।";
 
-    let hrOpen=Math.floor(openTime/60)%12; 
-    if(hrOpen===0) hrOpen=12;
-    let minOpen=openTime%60;
+        nextEventText =
+        "प्रज्ञा केन्द्र अभी खुला है और सुबह 09:30 बजे तक सेवाएं उपलब्ध रहेंगी। इसके बाद केन्द्र शाम 04:30 बजे में पुनः खुलेगा और 06:30 बजे तक सेवा जारी रखेगा";
+    }
 
-    let hrClose=Math.floor(closeTime/60)%12; 
-    if(hrClose===0) hrClose=12;
-    let minClose=closeTime%60;
 
-    let hrWait=Math.floor((closeTime+waitingPeriod)/60)%12; 
-    if(hrWait===0) hrWait=12;
-    let minWait=(closeTime+waitingPeriod)%60;
+    else if(totalMinutes > morningClose && totalMinutes < openTime){
 
-    let periodOpen=(openTime>=5*60 && openTime<12*60)?"सुबह":
-                   (openTime>=12*60 && openTime<16*60)?"दोपहर":
-                   (openTime>=16*60 && openTime<20*60)?"शाम":"रात";
+        nextEventText =
+        "केन्द्र अब शाम 04:30 बजे खुलेगा। केन्द्र का निर्धारित बन्द होने का समय शाम 06:30 बजे है। यदि कोई 06:30 तक पहुँचते हैं, तो केन्द्र 07:00 बजे तक सेवा जारी रखेगा।";
+    }
 
-    let periodClose=(closeTime>=5*60 && closeTime<12*60)?"सुबह":
-                    (closeTime>=12*60 && closeTime<16*60)?"दोपहर":
-                    (closeTime>=16*60 && closeTime<20*60)?"शाम":"रात";
+    else if(totalMinutes >= openTime && totalMinutes < closeTime){
 
-    let nextOpenTime = (totalMinutes < morningOpen) ? morningOpen : openTime;
-
-let hrOpen=Math.floor(nextOpenTime/60)%12; 
-if(hrOpen===0) hrOpen=12;
-let minOpen=nextOpenTime%60;
-
-let periodOpen=(nextOpenTime>=5*60 && nextOpenTime<12*60)?"सुबह":
-               (nextOpenTime>=12*60 && nextOpenTime<16*60)?"दोपहर":
-               (nextOpenTime>=16*60 && nextOpenTime<20*60)?"शाम":"रात";
-
-nextEventText =
-    "केन्द्र अब " + periodOpen + " " + hrOpen + ":" + minOpen.toString().padStart(2,'0') + " बजे खुलेगा। " +
-    "केन्द्र का निर्धारित बन्द होने का समय " + periodClose + " " + hrClose + ":" + minClose.toString().padStart(2,'0') + " बजे है। " +
-    "यदि कोई " + hrClose + ":" + minClose.toString().padStart(2,'0') + " तक पहुँचते हैं, तो केन्द्र " +
-    hrWait + ":" + minWait.toString().padStart(2,'0') + " तक सेवा जारी रखेगा।";
-        "केन्द्र का निर्धारित बन्द होने का समय " + periodClose + " " + hrClose + ":" + minClose.toString().padStart(2,'0') + " बजे है। " +
-        "यदि कोई " + hrClose + ":" + minClose.toString().padStart(2,'0') + " तक पहुँचते हैं, तो केन्द्र " +
-        hrWait + ":" + minWait.toString().padStart(2,'0') + " तक सेवा जारी रखेगा।";
-}
+        nextEventText =
+        "प्रज्ञा केन्द्र अभी खुला है। केन्द्र आज शाम 06:30 बजे बंद होगा। उसके बाद केन्द्र कल सुबह 08:30 बजे खुलेगा और सेवा 09:30 बजे तक जारी रखने के बाद केन्द्र कल शाम 04:30 बजे पुनः खुलने के बाद शाम 06:30 बजे तक सेवा जारी रखेगा";
+    }
+        
     else{
-    let hrClose = Math.floor(closeTime/60)%12; 
-    if(hrClose===0) hrClose=12;
 
-    let minClose = closeTime%60;
+        nextEventText =
+        "प्रज्ञा केन्द्र कल सुबह 08:30 बजे खुलेगा और 09:30 बजे तक सेवाएं उपलब्ध रहेंगी। " +
+        "सुबह के समय कोई वेटिंग पीरियड नहीं रहेगा, इसलिए कृपया 1 घंटे के अंदर ही आएं। " +
+        "यदि आप सुबह निर्धारित समय में नहीं आ पाते हैं, तो कृपया शाम में आने का प्रयास करें। " +
+        "केन्द्र पुनः शाम 04:30 बजे खुलेगा और 06:30 बजे तक सेवाएं उपलब्ध रहेंगी। " +
+        "यदि कोई 06:30 बजे तक पहुँचते हैं, तो केन्द्र 07:00 बजे तक सेवा जारी रखेगा। " +
+        "आपसे विनम्र निवेदन है कि कृपया केवल केन्द्र के खुले रहने के समय में ही फोन द्वारा संपर्क करें, जिससे आपकी सहायता बेहतर तरीके से की जा सके। " +
+        "कृपया असुविधा से बचने के लिए केवल निर्धारित समय में ही फोन द्वारा संपर्क करें तथा केन्द्र पर आने का प्रयास भी इसी निर्धारित समय के भीतर करें। धन्यवाद।";
+    }
 
-    let periodClose = (closeTime>=5*60 && closeTime<12*60)?"सुबह":
-                      (closeTime>=12*60 && closeTime<16*60)?"दोपहर":
-                      (closeTime>=16*60 && closeTime<20*60)?"शाम":"रात";
+    let temporaryNote = "यह नया समय कुछ दिनों के लिए अस्थायी रूप से लागू रहेगा और आगे बदलाव भी किया जा सकता है।";
+    let updateNotice = "जब भी समय में कोई बदलाव होगा, सूचना इसी पोर्टल के माध्यम से दी जाएगी। धन्यवाद";
 
-    nextEventText = "प्रज्ञा केन्द्र आज " + periodClose + " " + 
-                    hrClose + ":" + 
-                    minClose.toString().padStart(2,'0') + 
-                    " बजे बंद होगा।";
-}
-
-let temporaryNote = "यह नया समय कुछ दिनों के लिए अस्थायी रूप से लागू रहेगा और आगे बदलाव भी किया जा सकता है।";
-
-let updateNotice = "जब भी समय में कोई बदलाव होगा, सूचना इसी पोर्टल के माध्यम से दी जाएगी। धन्यवाद";
-
-bol(todayText + ". " + timeText + ". " + statusText + ". " + nextEventText + ". " + temporaryNote + ". " + updateNotice);
+    bol(todayText + ". " + timeText + ". " + statusText + ". " + nextEventText + ". " + temporaryNote + ". " + updateNotice);
 };
 
 
