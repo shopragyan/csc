@@ -541,10 +541,16 @@ function updateStatus(){
  let d=getKolkataTime();
  let month=d.getMonth()+1;
  let total=d.getHours()*60+d.getMinutes();
- let openTime=0,closeTime=0;
- if(month>=10 || month<=3){ openTime=13*60+30; closeTime=21*60+30; }
- else if(month>=4 && month<=6){ openTime=13*60; closeTime=21*60; }
- else{ openTime=13*60+30; closeTime=21*60+30; }
+ //let openTime=0,closeTime=0;
+ //if(month>=10 || month<=3){ openTime=13*60+30; closeTime=21*60+30; }
+// else if(month>=4 && month<=6){ openTime=13*60; closeTime=21*60; }
+ //else{ openTime=13*60+30; closeTime=21*60+30; }
+let openTime = 13*60+30;   // 01:30 PM
+let closeTime = 21*60;     // 09:00 PM
+
+
+
+    
     // 🟢 सुबह का समय (NEW)
 // 🟢 सुबह का समय (NEW)
 let morningOpen = 10*60;   // 10:00
@@ -675,7 +681,7 @@ let waitingPeriod = 05;
 
     nextEventText =
     "प्रज्ञा केन्द्र कल सुबह 10:00 बजे खुलेगा और 01:00 बजे तक सेवाएं उपलब्ध रहेंगी। " +
-    "सुबह के समय कोई वेटिंग पीरियड नहीं रहेगा, इसलिए कृपया दो घंटे के अंदर ही आएं। " +
+    "सुबह के समय कोई वेटिंग पीरियड नहीं रहेगा, इसलिए कृपया सुबह 10:00 बजे से दोपहर 01:00 बजे के बीच ही आएं। " + 
     "यदि आप सुबह निर्धारित समय में नहीं आ पाते हैं, तो कृपया दोपहर में आने का प्रयास करें। " +
     "केन्द्र पुनः दोपहर 01:30 बजे खुलेगा और 09:00 बजे तक सेवाएं उपलब्ध रहेंगी। " +
     "आपसे विनम्र निवेदन है कि कृपया केवल केन्द्र के खुले रहने के समय में ही फोन द्वारा संपर्क करें, जिससे आपकी सहायता बेहतर तरीके से की जा सके। " +
